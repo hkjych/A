@@ -12,6 +12,10 @@ SOURCES = {
     "passcro": ("zhangkaiitugithub/passcro", "https://github.com/zhangkaiitugithub/passcro"),
     "anaer": ("anaer.github.io/Sub", "https://anaer.github.io/Sub/proxies.yaml"),
     "xiaoji235": ("xiaoji235/airport-free", "https://github.com/xiaoji235/airport-free"),
+    "shaoyouvip": "https://raw.githubusercontent.com/shaoyouvip/free/refs/heads/main/all.yaml",
+    "kooker": "https://raw.githubusercontent.com/kooker/FreeSubsCheck/main/mihomo.yaml",
+    "ovmvo": "https://raw.githubusercontent.com/ovmvo/FreeSub/refs/heads/main/sub/permanent/mihomo.yaml",
+    "zhuhaiuk": "https://raw.githubusercontent.com/zhuhaiuk/free-nodes/main/clash_config.yaml",
 }
 
 FETCH_URLS = {
@@ -21,4 +25,8 @@ FETCH_URLS = {
     "passcro": "https://raw.githubusercontent.com/zhangkaiitugithub/passcro/main/speednodes.yaml",
     "anaer": "https://anaer.github.io/Sub/proxies.yaml",
     "xiaoji235": "https://raw.githubusercontent.com/xiaoji235/airport-free/main/clash/clashnodecc.txt",
+    "shaoyouvip": "https://raw.githubusercontent.com/shaoyouvip/free/refs/heads/main/all.yaml",
+    "kooker": "https://raw.githubusercontent.com/kooker/FreeSubsCheck/main/mihomo.yaml",
+    "ovmvo": "https://raw.githubusercontent.com/ovmvo/FreeSub/refs/heads/main/sub/permanent/mihomo.yaml",
+    "zhuhaiuk": "https://raw.githubusercontent.com/zhuhaiuk/free-nodes/main/clash_config.yaml",
 }
