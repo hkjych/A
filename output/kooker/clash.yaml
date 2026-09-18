@@ -1,6 +1,6 @@
 proxies:
   - auth: github.com/Alvin9999-newpac/fanqiang
-    name: "\U0001F1F3\U0001F1F1NL_1|2.6MB/s"
+    name: "\U0001F1F3\U0001F1F1NL_1|2.4MB/s"
     password: github.com/Alvin9999-newpac/fanqiang
     port: 29900
     server: 178.18.147.66
@@ -8,71 +8,40 @@ proxies:
     sni: www.microsoft.com
     type: hysteria2
     udp: true
-  - alpn:
-      - h3
-    down: ''
-    fingerprint: ''
-    name: "\U0001F1F3\U0001F1F1NL_2|3.2MB/s"
-    obfs: ''
-    obfs-password: ''
-    password: f89c89df-905c-4df3-ab07-4f1a37a81005
-    port: 443
-    server: cdn.fastline-labs.com
-    skip-cert-verify: false
-    sni: cdn.fastline-labs.com
-    type: hysteria2
-    up: ''
-  - name: "\U0001F1E9\U0001F1EADE_1|2.2MB/s"
-    password: None
-    port: 9443
-    server: 87.249.132.97
+  - name: "\U0001F1F8\U0001F1ECSG_1|1.2MB/s"
+    password: b8949dae-cb53-4b5a-ad9c-50f58c4656fb
+    port: 2052
+    server: sg1.xiaoliyu.us
     skip-cert-verify: true
-    tls: true
-    type: http
-  - alpn:
-      - h3
-    down: ''
-    fingerprint: ''
-    name: "\U0001F1E9\U0001F1EADE_2|2.0MB/s"
-    obfs: ''
-    obfs-password: ''
-    password: f89c89df-905c-4df3-ab07-4f1a37a81005
-    port: 443
-    server: status.fastline-labs.com
-    skip-cert-verify: false
-    sni: status.fastline-labs.com
+    sni: sg1.xiaoliyu.us
     type: hysteria2
-    up: ''
-  - alpn:
-      - h3
-    down: ''
-    fingerprint: ''
-    name: "\U0001F1F3\U0001F1F1NL_3|2.3MB/s"
-    obfs: ''
-    obfs-password: ''
-    password: f89c89df-905c-4df3-ab07-4f1a37a81005
-    port: 443
-    server: files.fastline-labs.com
-    skip-cert-verify: false
-    sni: files.fastline-labs.com
-    type: hysteria2
-    up: ''
-  - name: "\U0001F1F1\U0001F1FELY_1|1.5MB/s"
+  - name: "\U0001F1F1\U0001F1FELY_1|517KB/s"
     port: 8520
     server: 102.23.220.66
     type: http
-  - name: "\U0001F1FA\U0001F1F8US_1|797KB/s"
-    password: b8949dae-cb53-4b5a-ad9c-50f58c4656fb
-    port: 2077
-    server: us2.xiaoliyu.us
-    skip-cert-verify: true
-    sni: us2.xiaoliyu.us
+  - alpn:
+      - h3
+    down: ''
+    fingerprint: ''
+    name: "\U0001F1E9\U0001F1EADE_1|2.1MB/s"
+    obfs: ''
+    obfs-password: ''
+    password: f89c89df-905c-4df3-ab07-4f1a37a81005
+    port: 443
+    server: api.fastline-labs.com
+    skip-cert-verify: false
+    sni: api.fastline-labs.com
     type: hysteria2
+    up: ''
+  - name: ❓Other_1|1007KB/s
+    port: 5151
+    server: 187.72.72.209
+    type: http
   - alpn:
       - h3
     auth_str: dongtaiwang.com
     down: '1000'
-    name: "\U0001F1E9\U0001F1EADE_3|1.5MB/s"
+    name: "\U0001F1E9\U0001F1EADE_2|588KB/s"
     obfs: ''
     port: 54177
     protocol: udp
@@ -86,7 +55,7 @@ proxies:
       - h3
     auth-str: dongtaiwang.com
     down: '1000'
-    name: "\U0001F1E9\U0001F1EADE_4|2.2MB/s"
+    name: "\U0001F1E9\U0001F1EADE_3|2.1MB/s"
     port: 20088
     protocol: udp
     server: 5.83.129.153
@@ -95,97 +64,65 @@ proxies:
     type: hysteria
     up: '500'
   - alpn:
-      - h2
+      - http/1.1
     client-fingerprint: chrome
     encryption: none
-    name: "\U0001F1EB\U0001F1EEFI_1|1.5MB/s"
+    name: "\U0001F1F3\U0001F1F1NL_2|1.7MB/s"
     network: ws
     port: 443
-    server: a2.arshia-nova.ir
+    server: gvuis865-production.up.railway.app
     tls: true
     type: vless
     udp: true
-    uuid: cc3ec459-8d76-4066-ab4b-2614608f1afb
+    uuid: 7b415598-729e-6e6b-6ee4-9b77dee29878
     ws-opts:
       headers:
-        Host: c12.com
+        Host: gvuis865-production.up.railway.app
         User-Agent: >-
           Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like
-          Gecko) Chrome/69.0.3497.100 Safari/537.36
-      path: /
+          Gecko) Chrome/52.0.2743.116 Safari/537.36
+      path: /ws/7b415598-729e-6e6b-6ee4-9b77dee29878
     xudp: true
-    servername: ssl.fastly.com
-  - client-fingerprint: chrome
-    name: "\U0001F1EB\U0001F1F7FR_1|915KB/s"
-    network: ws
-    password: humanity
-    port: 443
-    server: 188.114.97.7
-    skip-cert-verify: false
-    sni: www.ignitelimit.com
-    type: trojan
-    udp: true
-    ws-opts:
-      headers:
-        User-Agent: >-
-          Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/533.4
-          (KHTML, like Gecko) Chrome/5.0.375.99 Safari/533.4
-      path: /assignment
-  - alpn:
-      - h2
-    client-fingerprint: chrome
-    encryption: none
-    name: "\U0001F1EB\U0001F1EEFI_2|1.6MB/s"
-    network: ws
-    port: 443
-    server: k2.cloud--vpn.site
-    tls: true
-    type: vless
-    udp: true
-    uuid: cc3ec459-8d76-4066-ab4b-2614608f1afb
-    ws-opts:
-      headers:
-        Host: c12.com
-        User-Agent: >-
-          Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML,
-          like Gecko) Chrome/66.0.3359.117 Safari/537.36
-      path: /
-    xudp: true
-    servername: ssl.fastly.com
+    servername: gvuis865-production.up.railway.app
   - client-fingerprint: chrome
     encryption: none
-    name: "\U0001F1E6\U0001F1F9AT_1|822KB/s"
-    network: tcp
-    port: 20610
+    grpc-opts:
+      grpc-service-name: TunService
+    name: ❓Other_2|3.0MB/s
+    network: grpc
+    port: 33743
     reality-opts:
-      public-key: lcXIrYi2o8yXrYHR321qQ--5lqVT8a6TKbaGpYTq4CI
-      short-id: "1d1a8f9fefeff5e6"
-    server: g1.haxat.bestvbest.ir
+      public-key: wGMBs7bvzyzA0-OUiwSkOOTDEMdxEOsSdRzxiP8GGQY
+      short-id: ''
+    server: 185.223.57.10
     tls: true
     type: vless
     udp: true
-    uuid: d65a82af-a403-405e-8b7b-27a68b830511
+    uuid: b3a11068-1a7e-4643-85de-7c82cce46943
     xudp: true
-    servername: doctor-yab.ir
+    servername: www.google.com
   - client-fingerprint: chrome
-    name: "\U0001F1EB\U0001F1F7FR_2|906KB/s"
-    network: ws
-    password: humanity
+    encryption: mlkem768x25519plus.native.0rtt.EvqGmJhHfNsRhxENFhkBpY3TDQZfpIeaet93vsXSaUU
+    flow: xtls-rprx-vision
+    name: "\U0001F1E9\U0001F1EADE_4|1.6MB/s"
+    network: xhttp
     port: 443
-    server: 162.159.136.234
-    skip-cert-verify: false
-    sni: www.ignitelimit.com
-    type: trojan
+    server: 199.232.79.166
+    tls: true
+    type: vless
     udp: true
-    ws-opts:
-      headers:
-        User-Agent: >-
-          Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko)
-          Chrome/56.0.2924.87 Safari/537.36
-      path: /assignment
+    uuid: 6d3bccbe-6f6e-40d8-a708-2b12b4f942d3
+    xhttp-opts:
+      host: telegram-uonvpn.global.ssl.fastly.net
+      mode: auto
+      path: >-
+        /@UonVPN---@UonVPN-*-@UonVPN--*-@UonVPN--**-@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN-*--@UonVPN
+      x-padding-bytes: 100-1000
+    xudp: true
+    servername: cdn.fastly.com
   - down: ''
     fingerprint: ''
-    name: ❓Other_1|905KB/s
+    name: "\U0001F1EF\U0001F1F5JP_1|830KB/s"
     obfs: ''
     obfs-password: ''
     password: b8949dae-cb53-4b5a-ad9c-50f58c4656fb
@@ -195,6 +132,73 @@ proxies:
     sni: jp1.xiaoliyu.us
     type: hysteria2
     up: ''
+  - name: "\U0001F1E9\U0001F1EADE_5|2.3MB/s"
+    password: ''
+    port: 1080
+    server: 135.125.232.151
+    skip-cert-verify: true
+    type: socks5
+    username: ''
+  - auth: 755d3d04-234a-435b-8371-99d4c912e891
+    name: "\U0001F1EF\U0001F1F5JP_2|2.9MB/s"
+    obfs: salamander
+    obfs-password: CJzHgzdjH1M1kt25
+    password: 755d3d04-234a-435b-8371-99d4c912e891
+    port: 40000
+    server: jjz.jjznodenode.top
+    skip-cert-verify: false
+    sni: jjz.jjznodenode.top
+    type: hysteria2
+    udp: true
+  - cipher: aes-256-cfb
+    name: "\U0001F1FA\U0001F1F8US_1|1.2MB/s"
+    password: amazonskr05
+    port: 443
+    server: 3.141.200.225
+    type: ss
+  - cipher: 2022-blake3-chacha20-poly1305
+    name: "\U0001F1E9\U0001F1EADE_6|821KB/s"
+    password: rsZGSjFXUyi6kX8P6glg15+TdK0zdtKVBjkHYeZdJ58=
+    port: 59924
+    server: 130.61.82.183
+    type: ss
+    udp: true
+  - client-fingerprint: chrome
+    name: "\U0001F1FA\U0001F1F8US_2|1.1MB/s"
+    network: ws
+    port: 443
+    server: 104.21.71.47
+    tls: true
+    type: vless
+    udp: true
+    uuid: ef5c5d5c-08c6-4549-b05e-d1ff29ecc8ba
+    ws-opts:
+      headers:
+        Host: 0-M16.CHIaN-mai-x.kDnS.FR
+        User-Agent: >-
+          Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML,
+          like Gecko) Chrome/57.0.2987.133 Safari/537.36
+      path: /JRr6VGcSLFc034DC6sDbwyWJLbB
+    xudp: true
+    servername: 0-M16.CHIaN-mai-x.kDnS.FR
+  - client-fingerprint: chrome
+    name: "\U0001F1FA\U0001F1F8US_3|540KB/s"
+    network: ws
+    port: 443
+    server: 172.67.136.68
+    tls: true
+    type: vless
+    udp: true
+    uuid: ef5c5d5c-08c6-4549-b05e-d1ff29ecc8ba
+    ws-opts:
+      headers:
+        Host: EDgE-RouTINg-m16-1.KazAN.KDNs.fr
+        User-Agent: >-
+          Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like
+          Gecko) Chrome/41.0.2272.101 Safari/537.36
+      path: /JRr6VGcSLFc034DC6sDbwyWJLbB
+    xudp: true
+    servername: EDgE-RouTINg-m16-1.KazAN.KDNs.fr
 proxy-groups:
   - name: "\U0001F680 节点选择"
     type: select
