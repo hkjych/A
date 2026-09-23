@@ -1,195 +1,140 @@
 proxies:
-  - client-fingerprint: chrome
-    name: "\U0001F1EB\U0001F1EEFI_1|1.2MB/s"
-    network: ws
-    port: 443
-    server: 202.166.187.132
-    skip-cert-verify: true
-    tls: true
-    type: vless
-    udp: true
-    uuid: 8be20011-59b1-4118-91ed-83e8e6b662cd
-    ws-opts:
-      headers:
-        Host: f.yoptybla.ru
-      path: /
-    servername: f.yoptybla.ru
-  - name: "\U0001F1FA\U0001F1F8US_1|2.0MB/s"
-    password: test123
-    port: 1080
-    server: 104.168.249.36
-    skip-cert-verify: false
-    type: socks5
-    username: test123
-  - name: "\U0001F1EE\U0001F1EAIE_1|1.3MB/s"
-    password: None
-    port: 443
-    server: 149.88.96.1
-    skip-cert-verify: true
-    tls: true
-    type: http
-  - name: "\U0001F1EC\U0001F1E7GB_1|1.5MB/s"
-    password: None
-    port: 9443
-    server: 37.120.233.34
-    skip-cert-verify: true
-    tls: true
-    type: http
-  - name: "\U0001F1E8\U0001F1FFCZ_1|821KB/s"
-    password: None
-    port: 443
-    server: 185.216.35.66
-    skip-cert-verify: true
-    tls: true
-    type: http
-  - name: "\U0001F1E9\U0001F1F0DK_1|725KB/s"
-    password: None
-    port: 443
-    server: 185.245.84.50
-    skip-cert-verify: true
-    tls: true
-    type: http
-  - name: "\U0001F1EC\U0001F1E7GB_2|944KB/s"
-    password: None
-    port: 443
-    server: 212.102.63.61
-    skip-cert-verify: true
-    tls: true
-    type: http
-  - name: "\U0001F1E8\U0001F1EDCH_1|2.2MB/s"
-    password: None
-    port: 443
-    server: 31.7.62.50
-    skip-cert-verify: true
-    tls: true
-    type: http
   - cipher: aes-256-cfb
-    name: "\U0001F1EF\U0001F1F5JP_1|6.4MB/s"
-    password: amazonskr05
-    port: 443
-    server: 54.199.248.166
-    type: ss
-    udp: true
-  - cipher: aes-256-cfb
-    name: "\U0001F1EF\U0001F1F5JP_2|1011KB/s"
+    name: "\U0001F1EF\U0001F1F5JP_1|1.7MB/s"
     password: amazonskr05
     port: 443
     server: 18.179.111.96
     type: ss
-    udp: true
-  - cipher: aes-256-cfb
-    name: "\U0001F1EF\U0001F1F5JP_3|4.8MB/s"
-    password: amazonskr05
+  - auth: 02bd8b5a-170b-4a79-8e68-9cec710272c7
+    name: "\U0001F1EB\U0001F1EEFI_1|2.9MB/s"
+    password: 02bd8b5a-170b-4a79-8e68-9cec710272c7
     port: 443
-    server: 13.230.153.249
-    type: ss
+    server: se1.chromevpn.cc
+    sni: se1.chromevpn.cc
+    type: hysteria2
     udp: true
-  - cipher: aes-256-cfb
-    name: "\U0001F1EF\U0001F1F5JP_4|5.4MB/s"
-    password: amazonskr05
-    port: 443
-    server: 13.231.184.186
-    type: ss
-    udp: true
-  - fingerprint: ''
-    name: "\U0001F1F9\U0001F1FCTW_1|1.5MB/s"
-    password: 9sK2mP8xQ7vL3nZ6
-    port: 443
-    server: 6ivh.pnuqcnp.cn
+  - name: "\U0001F1ED\U0001F1F0HK_1|1.4MB/s"
+    password: 19f72087-4591-4d72-930b-2697078ec2be
+    port: 4433
+    server: hk2.xiaoliyu.cyou
     skip-cert-verify: true
-    sni: images.ctfassets.net
+    type: hysteria2
+    sni: hk2.xiaoliyu.cyou
+  - alpn:
+      - h3
+    auth_str: dongtaiwang.com
+    down: '1000'
+    name: "\U0001F1E9\U0001F1EADE_1|1.1MB/s"
+    obfs: ''
+    port: 54177
+    protocol: udp
+    server: 5.83.129.90
+    skip-cert-verify: true
+    sni: apple.com
+    type: hysteria
+    up: '500'
+    auth-str: dongtaiwang.com
+  - name: "\U0001F1FA\U0001F1F8US_1|2.4MB/s"
+    password: d9d8d032-4dda-451b-93e3-00a57278eb51
+    port: 40022
+    server: us2.catzl.top
     type: anytls
     udp: true
-    username: 9sK2mP8xQ7vL3nZ6
-  - cipher: aes-256-cfb
-    name: "\U0001F1FA\U0001F1F8US_2|613KB/s"
-    password: amazonskr05
-    port: 443
-    server: 18.207.155.184
-    type: ss
+    sni: us2.catzl.top
+  - name: "\U0001F1F0\U0001F1F7KR_1|1.4MB/s"
+    password: d9d8d032-4dda-451b-93e3-00a57278eb51
+    port: 40041
+    server: kr1.catzl.top
+    type: anytls
     udp: true
-  - name: "\U0001F1E9\U0001F1EADE_1|621KB/s"
-    port: 443
-    server: 87.249.132.97
-    skip-cert-verify: true
-    tls: true
-    type: http
-  - name: "\U0001F1EC\U0001F1E7GB_3|2.0MB/s"
-    port: 443
-    server: 212.102.63.31
-    skip-cert-verify: true
-    tls: true
-    type: http
-  - name: "\U0001F1FA\U0001F1F8US_3|2.1MB/s"
-    password: ''
-    port: 7070
-    server: 20.83.154.79
-    skip-cert-verify: true
-    type: socks5
-    username: ''
-  - encryption: none
-    name: "\U0001F1FA\U0001F1F8US_4|627KB/s"
+    sni: kr1.catzl.top
+  - name: "\U0001F1F9\U0001F1FCTW_1|6.3MB/s"
+    password: d9d8d032-4dda-451b-93e3-00a57278eb51
+    port: 40071
+    server: tw1.catzl.top
+    type: anytls
+    udp: true
+    sni: tw1.catzl.top
+  - name: "\U0001F1F9\U0001F1FCTW_2|8.2MB/s"
+    password: d9d8d032-4dda-451b-93e3-00a57278eb51
+    port: 40073
+    server: tw3.catzl.top
+    type: anytls
+    udp: true
+    sni: tw3.catzl.top
+  - client-fingerprint: chrome
+    name: "\U0001F1FA\U0001F1F8US_2|2.4MB/s"
     network: ws
-    port: 8880
-    server: 104.21.15.212
+    port: 443
+    server: w1.lianjieni.com
+    tls: true
     type: vless
     udp: true
-    uuid: 902fd911-ca5d-49a6-99ad-47372a266804
+    uuid: a4a49f61-f5c0-4004-94ab-1419d83f9867
     ws-opts:
       headers:
-        Host: young-wildflower-6b6c.100-52d.workers.dev
-        User-Agent: >-
-          Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML,
-          like Gecko) Chrome/66.0.3359.117 Safari/537.36
-      path: /pyip=ProxyIP.JP.CMLiussss.net
-    xudp: true
-  - client-fingerprint: chrome
-    name: "\U0001F1EA\U0001F1EAEE_1|765KB/s"
-    network: xhttp
-    port: 9443
-    server: 31.76.226.100
-    tls: true
-    type: vless
+        Host: w1.lianjieni.com
+      path: /cdnws
+    servername: w1.lianjieni.com
+  - name: "\U0001F1EF\U0001F1F5JP_2|4.5MB/s"
+    password: d9d8d032-4dda-451b-93e3-00a57278eb51
+    port: 40055
+    server: jp5.catzl.top
+    type: anytls
     udp: true
-    uuid: d9d0f208-d582-41d5-bb7b-742671402810
-    xhttp-opts:
-      host: hub-ee-01.hanvpn.cc
-      mode: auto
-      path: /ee01-xhttp-8e47a/
-    xudp: true
-    servername: hub-ee-01.hanvpn.cc
-  - client-fingerprint: chrome
-    name: "\U0001F1F9\U0001F1EDTH_1|925KB/s"
+    sni: jp5.catzl.top
+  - down: ''
+    fingerprint: 8b5ac8eb1c23f208cb6e92bd41407d32994b0668d3ba2b0cd56400dca8c0b843
+    name: "\U0001F1E9\U0001F1EADE_2|3.4MB/s"
+    obfs: salamander
+    obfs-password: V2RayyNGvpn
+    password: v2rayyngvpn
     port: 443
-    reality-opts:
-      public-key: Euq607wb-KZNjbuOMQ1h646C3dm_Q-ntd7yxZ52jj0U
-      short-id: "856c0a3cd1426a5c"
-    server: 34.15.176.240
-    skip-cert-verify: true
-    tls: true
-    type: vless
-    udp: true
-    uuid: 742dc674-a491-4a42-a551-b3ea6dd2f447
+    server: 168.222.43.35
+    skip-cert-verify: false
+    sni: Play.google.com
+    type: hysteria2
+    up: ''
+  - client-fingerprint: firefox
+    flow: xtls-rprx-vision
+    name: "\U0001F1E9\U0001F1EADE_3|554KB/s"
     network: tcp
-    servername: www.cloudflare.com
-  - client-fingerprint: chrome
-    name: "\U0001F1FA\U0001F1F8US_5|581KB/s"
-    network: ws
-    port: 443
-    server: 104.21.16.18
+    port: 57160
+    reality-opts:
+      public-key: Tbu7sr_pvHngDWFIa0ApL5UL9vEGxlHESd9g53KQehw
+      short-id: "77b5"
+    server: 77.91.76.156
     tls: true
     type: vless
     udp: true
-    uuid: 2240d8f8-898f-4988-8c08-ac724aa06ddb
-    ws-opts:
-      headers:
-        Host: api-gateway-1.f00f.ccwu.cc
-        User-Agent: >-
-          Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
-          like Gecko) Chrome/70.0.3538.77 Safari/537.36
-      path: /BzuntJ8qZN0TRKbC8TveMxJ0
+    uuid: 68ad9a6d-2463-4c31-92a7-31547b9d4783
     xudp: true
-    servername: api-gateway-1.f00f.ccwu.cc
+    servername: funpay.com
+  - down: ''
+    fingerprint: ''
+    name: "\U0001F1E9\U0001F1EADE_4|1.9MB/s"
+    obfs: ''
+    obfs-password: ''
+    password: d1224950-ffab-4b9a-8696-431b40a6cfbd
+    port: 443
+    server: cze-02.node.lumixnet.com
+    skip-cert-verify: true
+    sni: cze-02.node.lumixnet.com
+    type: hysteria2
+    up: ''
+  - down: ''
+    fingerprint: ''
+    name: "\U0001F1EB\U0001F1EEFI_2|2.9MB/s"
+    obfs: ''
+    obfs-password: ''
+    password: a6cf39b3-0424-42a2-abf7-b426da69b1a4
+    port: 443
+    server: de.i-love-russia.online
+    skip-cert-verify: true
+    sni: ''
+    type: hysteria2
+    up: ''
+    disable-sni: true
 proxy-groups:
   - name: "\U0001F680 节点选择"
     type: select
