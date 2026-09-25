@@ -1,23 +1,19 @@
 proxies:
-  - cipher: aes-256-cfb
-    name: "\U0001F1EF\U0001F1F5JP_1|4.1MB/s"
-    password: amazonskr05
-    port: 443
-    server: 54.199.248.166
-    type: ss
-  - client-fingerprint: chrome
-    flow: xtls-rprx-vision
-    name: "\U0001F1FA\U0001F1F8US_1|2.1MB/s"
-    network: tcp
-    port: 443
-    reality-opts:
-      public-key: yEpPLsSy8aCXkQ4wzc9t38gQACipc_k54upD9fJj5y4
-      short-id: "4679f07417e9feb4"
-    server: 47.253.144.114
-    tls: true
+  - name: "\U0001F1EE\U0001F1F1IL_1|1.2MB/s"
+    network: ws
+    port: 80
+    server: platform101.golnamakcert.top
     type: vless
-    uuid: a4c6bab6-bd83-4b72-8c78-99e96f40cde3
-    servername: www.apple.com
+    udp: true
+    uuid: e13cf851-b4fd-413b-8d49-146e6eb8e5d4
+    ws-opts:
+      headers:
+        Host: platform101.halalkhor.info
+        User-Agent: >-
+          Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML,
+          like Gecko) Chrome/55.0.2883.87 Safari/537.36
+      path: /platform101
+    xudp: true
 proxy-groups:
   - name: "\U0001F680 节点选择"
     type: select
