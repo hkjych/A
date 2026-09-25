@@ -1,19 +1,230 @@
 proxies:
-  - name: "\U0001F1EE\U0001F1F1IL_1|1.2MB/s"
-    network: ws
-    port: 80
-    server: platform101.golnamakcert.top
+  - name: "\U0001F1F7\U0001F1F4RO_1|3.1MB/s"
+    password: Jz40_mIJ934vK0_k9D3jz92_Vx48q_GHa1_sz0
+    port: 8443
+    server: 85.204.107.188
+    skip-cert-verify: true
+    sni: hopp-romania-new.roxa.org
+    type: hysteria2
+  - name: "\U0001F1FA\U0001F1F8US_1|1.2MB/s"
+    obfs: salamander
+    obfs-password: d2e3c1b8a16952ae9cf06dfc05b3588a
+    password: af24a0e4-f5a2-4b97-a678-992d45346147
+    port: 30865
+    server: 108.186.180.148
+    skip-cert-verify: true
+    sni: www.bing.com
+    type: hysteria2
+  - http-opts:
+      headers:
+        Host:
+          - bmi.ir
+      method: GET
+      path:
+        - /
+    name: "\U0001F1FA\U0001F1F8US_2|1.6MB/s"
+    network: http
+    port: 11186
+    server: 161.35.187.182
+    tls: false
     type: vless
     udp: true
-    uuid: e13cf851-b4fd-413b-8d49-146e6eb8e5d4
-    ws-opts:
+    uuid: fd4b654f-9ae2-42c5-977b-6aa54e8e9a83
+  - name: "\U0001F1E8\U0001F1F3CN_1|6.1MB/s"
+    password: Og==
+    port: 1080
+    server: 103.210.161.8
+    skip-cert-verify: true
+    type: socks5
+    username: Og==
+  - name: "\U0001F1E8\U0001F1F3CN_2|6.1MB/s"
+    password: T2c9PTpPZz09
+    port: 1080
+    server: 103.210.161.8
+    skip-cert-verify: true
+    type: socks5
+    username: T2c9PTpPZz09
+  - name: "\U0001F1F3\U0001F1F1NL_1|1.1MB/s"
+    password: None
+    port: 443
+    server: 5.255.118.82
+    skip-cert-verify: true
+    tls: true
+    type: http
+  - name: "\U0001F1F1\U0001F1FBLV_1|1.5MB/s"
+    password: ''
+    port: 443
+    server: 109.248.147.66
+    skip-cert-verify: true
+    tls: true
+    type: http
+    username: ''
+  - name: "\U0001F1EE\U0001F1F9IT_1|565KB/s"
+    port: 443
+    server: 185.183.105.130
+    skip-cert-verify: true
+    tls: true
+    type: http
+  - name: "\U0001F1F8\U0001F1EASE_1|728KB/s"
+    password: None
+    port: 443
+    server: 146.70.242.130
+    skip-cert-verify: true
+    tls: true
+    type: http
+  - name: "\U0001F1F3\U0001F1F1NL_2|711KB/s"
+    port: 9002
+    server: 84.17.47.148
+    skip-cert-verify: true
+    tls: true
+    type: http
+    udp: true
+  - name: "\U0001F1EC\U0001F1E7GB_1|1.2MB/s"
+    password: None
+    port: 9443
+    server: 37.120.233.34
+    skip-cert-verify: true
+    tls: true
+    type: http
+  - name: "\U0001F1F5\U0001F1F1PL_1|791KB/s"
+    password: None
+    port: 443
+    server: 37.120.156.18
+    skip-cert-verify: true
+    tls: true
+    type: http
+  - name: "\U0001F1EC\U0001F1E7GB_2|1.3MB/s"
+    password: None
+    port: 443
+    server: 185.235.0.2
+    skip-cert-verify: true
+    tls: true
+    type: http
+  - name: "\U0001F1E9\U0001F1F0DK_1|1.7MB/s"
+    password: None
+    port: 9443
+    server: 185.245.84.50
+    skip-cert-verify: true
+    tls: true
+    type: http
+  - name: "\U0001F1F7\U0001F1F8RS_1|989KB/s"
+    port: 443
+    server: 146.70.221.34
+    skip-cert-verify: true
+    tls: true
+    type: http
+  - name: "\U0001F1ED\U0001F1F7HR_1|724KB/s"
+    port: 443
+    server: 154.47.29.174
+    skip-cert-verify: true
+    tls: true
+    type: http
+  - name: "\U0001F1EC\U0001F1E7GB_3|716KB/s"
+    port: 443
+    server: 212.102.63.61
+    skip-cert-verify: true
+    tls: true
+    type: http
+  - name: "\U0001F1F3\U0001F1F1NL_3|707KB/s"
+    port: 443
+    server: 149.36.51.129
+    skip-cert-verify: true
+    tls: true
+    type: http
+  - http-opts:
       headers:
-        Host: platform101.halalkhor.info
-        User-Agent: >-
-          Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML,
-          like Gecko) Chrome/55.0.2883.87 Safari/537.36
-      path: /platform101
+        Host:
+          - az.khamenei.ir
+      method: GET
+      path:
+        - /
+    name: "\U0001F1FA\U0001F1F8US_3|525KB/s"
+    network: http
+    port: 11186
+    server: 146.190.72.139
+    tls: false
+    type: vless
+    udp: true
+    uuid: fd4b654f-9ae2-42c5-977b-6aa54e8e9a83
+  - name: "\U0001F1E8\U0001F1EDCH_1|968KB/s"
+    password: None
+    port: 9443
+    server: 37.120.213.210
+    skip-cert-verify: true
+    tls: true
+    type: http
+  - name: "\U0001F1EC\U0001F1E7GB_4|1.0MB/s"
+    port: 443
+    server: 185.235.0.66
+    skip-cert-verify: true
+    tls: true
+    type: http
+  - name: "\U0001F1F5\U0001F1F9PT_1|1.8MB/s"
+    port: 443
+    server: 149.22.86.1
+    skip-cert-verify: true
+    tls: true
+    type: http
+  - client-fingerprint: chrome
+    flow: xtls-rprx-vision
+    name: "\U0001F1FA\U0001F1F8US_4|3.0MB/s"
+    network: tcp
+    port: 443
+    reality-opts:
+      public-key: BlSccfT5tvDIOS7v9VaPd0ulUNhUdvlMjGiNzDNDUHE
+      short-id: "051f20c2344a2dfd"
+    server: c10s3.portablesubmarines.com
+    tls: true
+    type: vless
+    udp: true
+    uuid: 88882ac2-0f7c-4907-9605-b847f79ec9d3
     xudp: true
+    servername: portal.citygrainla.com
+  - client-fingerprint: safari
+    flow: xtls-rprx-vision
+    name: "\U0001F1F8\U0001F1ECSG_1|821KB/s"
+    network: tcp
+    port: 443
+    reality-opts:
+      public-key: 4S52pKhsJA4gK-_MLW8_R8TTeZsS4pH7ef6St-aKVBQ
+      short-id: "ab1df8505f6e0072"
+    server: 163.128.99.57
+    tls: true
+    type: vless
+    udp: true
+    uuid: 1a049739-b873-4242-9a2b-239951eb2dd3
+    xudp: true
+    servername: www.apple.com
+  - client-fingerprint: safari
+    flow: xtls-rprx-vision
+    name: "\U0001F1FA\U0001F1F8US_5|1.2MB/s"
+    network: tcp
+    port: 443
+    reality-opts:
+      public-key: GjzyBnCFWt9D3gtFsMKpvqcmUUYqPA3zNP0o3aNcNSg
+      short-id: "e70046c27dae6aa7"
+    server: 38.77.133.202
+    tls: true
+    type: vless
+    udp: true
+    uuid: 4a215f09-e1f1-46a6-8e2f-7fb096fa6b1f
+    xudp: true
+    servername: www.apple.com
+  - client-fingerprint: chrome
+    flow: xtls-rprx-vision
+    name: "\U0001F1ED\U0001F1F0HK_1|5.6MB/s"
+    network: tcp
+    port: 443
+    reality-opts:
+      public-key: Z0sxSuzxnWYa5FNTZ-W4ImxQd674VG4KfmOBqlcudjU
+      short-id: "7c7ad24684"
+    server: bgroup.hk1.ilovegairport.com
+    tls: true
+    type: vless
+    udp: true
+    uuid: a92c5b96-c30a-4130-8cfa-63030349503a
+    xudp: true
+    servername: ap-east-1.console.aws.amazon.com
 proxy-groups:
   - name: "\U0001F680 节点选择"
     type: select
