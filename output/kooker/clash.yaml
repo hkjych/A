@@ -1,41 +1,10 @@
 proxies:
-  - name: ❓Other_1|1.1MB/s
-    password: None
-    port: 9002
-    server: 84.17.47.148
-    skip-cert-verify: true
-    tls: true
-    type: http
-    udp: true
-  - name: "\U0001F1F9\U0001F1FCTW_1|973KB/s"
-    password: 9sK2mP8xQ7vL3nZ6
-    port: 443
-    server: ac7548f3ebe045b39a90288ff1e97526.pnuqcnp.cn
-    skip-cert-verify: true
-    sni: ac7548f3ebe045b39a90288ff1e97526.lwdnxf.cn
-    type: anytls
   - client-fingerprint: chrome
-    encryption: none
-    flow: xtls-rprx-vision
-    name: "\U0001F1F5\U0001F1F1PL_1|2.3MB/s"
-    network: tcp
-    port: 2063
-    reality-opts:
-      public-key: MMpt_jWc4J3oySBdf5sPDVRkiWlZmOObth6A1scM9BM
-      short-id: ''
-    server: 31.77.13.19
-    tls: true
-    type: vless
-    udp: true
-    uuid: b18d5990-96eb-4587-a386-7f8ef7591e6a
-    xudp: true
-    servername: rusbid.de
-  - client-fingerprint: chrome
-    name: "\U0001F1EB\U0001F1F7FR_1|767KB/s"
+    name: "\U0001F1EB\U0001F1F7FR_1|527KB/s"
     network: ws
     password: humanity
     port: 443
-    server: 104.17.147.22
+    server: 162.159.136.234
     skip-cert-verify: false
     sni: www.ignitelimit.com
     type: trojan
@@ -43,35 +12,21 @@ proxies:
     ws-opts:
       headers:
         User-Agent: >-
-          Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like
-          Gecko) Chrome/40.0.2214.111 Safari/537.36
+          Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
+          like Gecko) Chrome/52.0.2743.116 Safari/537.36
       path: /assignment
-  - client-fingerprint: chrome
-    name: "\U0001F1EB\U0001F1F7FR_2|606KB/s"
-    network: ws
-    password: humanity
+  - down: ''
+    fingerprint: ''
+    name: "\U0001F1EB\U0001F1F7FR_2|836KB/s"
+    obfs: ''
+    obfs-password: ''
+    password: 'gf1:gfhysteria2024'
     port: 443
-    server: 216.24.57.1
-    skip-cert-verify: false
-    sni: www.ignitelimit.com
-    type: trojan
-    udp: true
-    ws-opts:
-      headers:
-        User-Agent: >-
-          Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like
-          Gecko) Chrome/47.0.2526.111 Safari/537.36 MVisionPlayer/1.0.0.0
-      path: /assignment
-  - fingerprint: ''
-    name: "\U0001F1EF\U0001F1F5JP_1|4.4MB/s"
-    password: 9e98496a-0036-4cc6-8302-3929c29ba772
-    port: 35791
-    server: iijjp.mggl.wang
+    server: 173.212.201.85
     skip-cert-verify: true
-    sni: www.apple.com
-    type: anytls
-    udp: true
-    username: 9e98496a-0036-4cc6-8302-3929c29ba772
+    sni: www.docker.com
+    type: hysteria2
+    up: ''
 proxy-groups:
   - name: "\U0001F680 节点选择"
     type: select
