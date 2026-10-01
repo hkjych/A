@@ -1,26 +1,38 @@
 proxies:
   - down: ''
     fingerprint: ''
-    name: "\U0001F1F8\U0001F1ECSG_1|578KB/s"
+    name: "\U0001F1F1\U0001F1FBLV_1|1.1MB/s"
     obfs: ''
     obfs-password: ''
-    password: f87376e17da040ed04c9665ce8972930
-    port: 50160
-    server: 138.2.73.238
-    skip-cert-verify: true
-    sni: 138.2.73.238
+    password: e3c3b722-1264-4cdc-a97c-b0a1bb73cd67
+    port: 9443
+    server: 104.165.205.46
+    skip-cert-verify: false
+    sni: onecloudstream.com
     type: hysteria2
     up: ''
   - down: ''
     fingerprint: ''
-    name: "\U0001F1FA\U0001F1F8US_1|825KB/s"
+    name: ❓Other_1|649KB/s
     obfs: ''
     obfs-password: ''
-    password: 6c077487-06af-4fb1-9e46-d485d98f0a31
-    port: 51285
-    server: 108.181.5.106
+    password: cf83b611-6cba-4535-adcb-8da06c6a9146
+    port: 443
+    server: 144.31.212.253
+    skip-cert-verify: false
+    sni: vps155-edge.kermemehori.ru
+    type: hysteria2
+    up: ''
+  - down: ''
+    fingerprint: ''
+    name: "\U0001F1E6\U0001F1FAAU_1|783KB/s"
+    obfs: ''
+    obfs-password: ''
+    password: H7mP2xY9kJ4nQ8wR5tF6vB3z
+    port: 443
+    server: vpn-au-001.fastervpn.world
     skip-cert-verify: true
-    sni: www.bing.com
+    sni: vpn-au-001.fastervpn.world
     type: hysteria2
     up: ''
 proxy-groups:
