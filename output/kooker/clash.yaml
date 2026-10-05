@@ -1,16 +1,32 @@
 proxies:
+  - name: ❓Other_1|1.8MB/s
+    password: None
+    port: 9002
+    server: 84.17.47.148
+    skip-cert-verify: true
+    tls: true
+    type: http
+    udp: true
   - client-fingerprint: chrome
-    encryption: none
     flow: xtls-rprx-vision
-    name: "\U0001F1F8\U0001F1ECSG_1|639KB/s"
-    network: tcp
+    name: "\U0001F1F8\U0001F1ECSG_1|5.2MB/s"
     port: 33102
     server: 112.49.63.11
+    skip-cert-verify: true
     tls: true
     type: vless
     udp: true
     uuid: 0f47a872-b140-46f5-aef8-f46993f5fc01
-    xudp: true
+    network: tcp
+    servername: sgg.knhqf.com
+  - flow: xtls-rprx-vision
+    name: "\U0001F1F8\U0001F1ECSG_2|873KB/s"
+    port: 33102
+    server: 27.44.143.169
+    tls: true
+    type: vless
+    uuid: 0f47a872-b140-46f5-aef8-f46993f5fc01
+    network: tcp
     servername: sgg.knhqf.com
 proxy-groups:
   - name: "\U0001F680 节点选择"
