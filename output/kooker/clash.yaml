@@ -1,47 +1,16 @@
 proxies:
-  - client-fingerprint: chrome
-    encryption: none
-    flow: xtls-rprx-vision
-    name: "\U0001F1F3\U0001F1F1NL_1|1.2MB/s"
-    network: tcp
-    port: 8443
-    server: alb1.keepverify.net
-    tls: true
-    type: vless
-    udp: true
-    uuid: 595a6246-d7b0-48bc-a5f0-17068aec2e88
-    xudp: true
-    servername: alb1.keepverify.net
-  - alpn:
-      - http/1.1
-    client-fingerprint: chrome
-    encryption: none
-    name: "\U0001F1F3\U0001F1F1NL_2|2.1MB/s"
-    network: ws
+  - down: ''
+    fingerprint: ''
+    name: "\U0001F1F7\U0001F1FARU_1|794KB/s"
+    obfs: ''
+    obfs-password: ''
+    password: f317b5d6-d399-4d3d-a051-89d674ae953c
     port: 443
-    server: vodiwalkerpanel-production-3091.up.railway.app
-    tls: true
-    type: vless
-    udp: true
-    uuid: a34cd668-6600-1f5d-3aa8-1f428f6878bf
-    ws-opts:
-      headers:
-        Host: vodiwalkerpanel-production-3091.up.railway.app
-        User-Agent: >-
-          Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML,
-          like Gecko) Chrome/60.0.3112.113 Safari/537.36
-      path: /ws/a34cd668-6600-1f5d-3aa8-1f428f6878bf
-    xudp: true
-    servername: vodiwalkerpanel-production-3091.up.railway.app
-  - name: "\U0001F1FA\U0001F1F8US_1|3.3MB/s"
-    password: KiUXpE53Xd
-    port: 39493
-    server: www.7770031.xyz
-    skip-cert-verify: true
-    sni: www.7770031.xyz
-    type: trojan
-    udp: true
-    network: tcp
+    server: msk.frkn.org
+    skip-cert-verify: false
+    sni: msk.frkn.org
+    type: hysteria2
+    up: ''
 proxy-groups:
   - name: "\U0001F680 节点选择"
     type: select
