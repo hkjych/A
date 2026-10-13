@@ -1,146 +1,33 @@
 proxies:
-  - alterId: 0
-    cipher: auto
-    name: "\U0001F1FA\U0001F1F8US_1|1.7MB/s"
-    network: ws
-    port: 28167
-    server: 142.171.48.179
-    tls: false
-    type: vmess
-    udp: true
-    uuid: 71e6d255-8054-42be-8b35-d28d82e97653
-    ws-opts:
-      headers:
-        Host: gw.alicdn.com
-      path: /
-  - alterId: 0
-    cipher: auto
-    name: "\U0001F1FA\U0001F1F8US_2|1.9MB/s"
-    network: ws
-    port: 28167
-    server: 142.171.48.179
-    tls: false
-    type: vmess
-    udp: true
-    uuid: 2faa6e5e-bf16-4f05-93db-3ba500cbc1b1
-    ws-opts:
-      headers:
-        Host: gw.alicdn.com
-      path: /
-  - alterId: 0
-    cipher: auto
-    name: "\U0001F1FA\U0001F1F8US_3|1.4MB/s"
-    network: ws
-    port: 28167
-    server: 142.171.48.179
-    tls: false
-    type: vmess
-    udp: true
-    uuid: 2abe0fba-ecd7-483a-83a2-33600b6a4df7
-    ws-opts:
-      headers:
-        Host: gw.alicdn.com
-      path: /
-  - alterId: 0
-    cipher: auto
-    name: "\U0001F1FA\U0001F1F8US_4|2.0MB/s"
-    network: ws
-    port: 28167
-    server: 142.171.48.179
-    tls: false
-    type: vmess
-    udp: true
-    uuid: c20f5c31-488e-44c7-b26a-8be8e0737066
-    ws-opts:
-      headers:
-        Host: gw.alicdn.com
-      path: /
-  - name: "\U0001F1FA\U0001F1F8US_5|660KB/s"
-    password: a0b0dc79-2b67-46cf-b58b-186d2e978415
-    port: 10443
-    server: 45.205.27.78
+  - client-fingerprint: chrome
+    flow: xtls-rprx-vision
+    name: "\U0001F1FA\U0001F1F8US_1|1.6MB/s"
+    port: 9443
+    reality-opts:
+      public-key: ELJzJkc4SiCeCn6OF-8V9oeoJqXcD1y9WUntP3It53g
+      short-id: "649ab61e575fdbc9"
+    server: 213.165.50.45
     skip-cert-verify: true
-    type: trojan
+    tls: true
+    type: vless
     udp: true
+    uuid: c3db7657-88ce-42a6-b998-1e0364b277ac
     network: tcp
-  - alterId: 0
-    cipher: auto
-    name: "\U0001F1FA\U0001F1F8US_6|1.8MB/s"
-    network: ws
-    port: 28167
-    server: 142.171.48.179
-    tls: false
-    type: vmess
-    udp: true
-    uuid: 713b598f-1483-49ba-b31d-22443de1b21f
-    ws-opts:
-      headers:
-        Host: gw.alicdn.com
-      path: /
-  - name: "\U0001F1FA\U0001F1F8US_7|560KB/s"
-    password: 929014af-1fd8-44e8-8207-9aa5b882af97
-    port: 10443
-    server: 45.205.27.78
+    servername: usa.edgeses.org
+  - client-fingerprint: chrome
+    name: "\U0001F1FA\U0001F1F8US_2|3.9MB/s"
+    port: 443
+    reality-opts:
+      public-key: AgTktefiMM58y7f-KFgEtmVti_YJbd0GPSkxNeJ0RH4
+      short-id: "56cd2f720d"
+    server: akga01.xyy123.bid
     skip-cert-verify: true
-    type: trojan
+    tls: true
+    type: vless
     udp: true
+    uuid: 05dd8b4c-c202-406a-a550-31c0b92ba312
     network: tcp
-  - alterId: 0
-    cipher: auto
-    name: "\U0001F1FA\U0001F1F8US_8|605KB/s"
-    network: ws
-    port: 28167
-    server: 142.171.48.179
-    tls: false
-    type: vmess
-    udp: true
-    uuid: 35e740ad-e4c5-4a87-86ea-4784e33385c1
-    ws-opts:
-      headers:
-        Host: gw.alicdn.com
-      path: /
-  - alterId: 0
-    cipher: auto
-    name: "\U0001F1FA\U0001F1F8US_9|1.2MB/s"
-    network: ws
-    port: 28167
-    server: 142.171.48.179
-    tls: false
-    type: vmess
-    udp: true
-    uuid: edc00555-a1fd-477e-96cf-123158813867
-    ws-opts:
-      headers:
-        Host: gw.alicdn.com
-      path: /
-  - alterId: 0
-    cipher: auto
-    name: "\U0001F1FA\U0001F1F8US_10|2.2MB/s"
-    network: ws
-    port: 28167
-    server: 142.171.48.179
-    tls: false
-    type: vmess
-    udp: true
-    uuid: 66adf48a-47c7-4110-91c0-2be3d19aaa91
-    ws-opts:
-      headers:
-        Host: gw.alicdn.com
-      path: /
-  - alterId: 0
-    cipher: auto
-    name: "\U0001F1FA\U0001F1F8US_11|1.5MB/s"
-    network: ws
-    port: 28167
-    server: 142.171.48.179
-    tls: false
-    type: vmess
-    udp: true
-    uuid: 8bfcefb6-7578-4b71-8777-4b1438660d71
-    ws-opts:
-      headers:
-        Host: gw.alicdn.com
-      path: /
+    servername: buckeye-retail-website.amazon.com
 proxy-groups:
   - name: "\U0001F680 节点选择"
     type: select
