@@ -148,11 +148,23 @@ jobs:
           fi
           git diff --cached --stat | tail -5
           git commit -m "update: $(TZ=Asia/Shanghai date +%Y-%m-%d) 节点订阅"
+          # 订阅产物是每次运行重新生成的,远端若在本次运行期间也提交过,
+          # 合并时一律保留"本轮生成"的内容(生成物没有合并的意义)。
           for i in 1 2 3; do
-            if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" \
-               && git push origin "HEAD:${GITHUB_REF_NAME}"; then
-              echo "推送成功"
-              exit 0
+            git fetch origin "${GITHUB_REF_NAME}"
+            if git rebase -X theirs "origin/${GITHUB_REF_NAME}"; then
+              if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                echo "推送成功"
+                exit 0
+              fi
+            else
+              git rebase --abort || true
+              echo "::warning::远端与本地都改过生成物,改用 merge 保留本轮产物"
+              if git merge -X ours --no-edit "origin/${GITHUB_REF_NAME}" \
+                 && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+                echo "推送成功(merge)"
+                exit 0
+              fi
             fi
             echo "::warning::第 $i 次推送失败，5 秒后重试"
             sleep 5
