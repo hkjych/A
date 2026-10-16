@@ -51,6 +51,12 @@ jobs:
       - name: Install mihomo core
         run: bash scripts/install_mihomo.sh
 
+      - name: "确保 20MB 测速文件已发布(release: test)"
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/ensure_speedtest_asset.sh
+
       - name: Scrape yoyapai
         run: python scripts/scraper.py || echo "::warning::yoyapai 抓取失败，跳过该来源"
 

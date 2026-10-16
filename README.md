@@ -45,7 +45,12 @@
 
 1. **合并去重**:按完整节点配置(协议/服务器/端口/凭据)去重,忽略节点名;
 2. **可达性**:内核 REST API 逐节点请求 `generate_204`(默认 5s 超时),不可达即淘汰;
-3. **测速**:对可达节点启动"出口绑定"监听器(`listeners` + `proxy: 节点名`),并发真实下载 20MB 测试文件(默认 `speed.cloudflare.com`,不可达时回退到 mihomo 发行包),按 `字节/耗时` 计算 MB/s;已达标即提前结束以节省流量;
+3. **测速(两个测试文件都测 + 加权平均)**:对可达节点启动"出口绑定"监听器(`listeners` + `proxy: 节点名`),并发真实下载两个 20MB 测速文件——
+   1. 本仓库 [release: test](https://github.com/wzmwayne/proxy-node/releases/tag/test) 的 `speedtest-20mb.bin`(不可压缩随机数据,权重 **0.4**);
+   2. Cloudflare 的 `speed.cloudflare.com/__down?bytes=20000000`(权重 **0.6**,权重更高);
+
+   **加权平均即为该节点的最终速度**(某个文件不可用时按剩余权重归一化,只有一个测到就用它);
+   已达标即提前结束以节省流量;两个文件都不可达时回退到 mihomo 发行包并跳过测速;
 4. **标注与分组**:每个节点名前缀 `[x.xMB/s]`(失败标 `[测速失败]`,未测标 `[未测速]`);生成 `⚡ 高速节点(>2MB/s)`、`🏅 优质节点`、`🚀 节点选择(全部精选)`、`♻️ 自动选择`,以及**每个来源各自的 `📦 <来源>` 精选标签页**(排序:高速 → 优质 → 其余按延迟);
 5. **总耗时**约 5~8 分钟(取决于来源规模与节点存活率)。
 
@@ -81,6 +86,8 @@ scripts/
   sanitize.py              # 清洗(控制字符/垃圾键/重名/悬空引用)+ 内核门禁
   test_nodes.py            # 内核可达性 + 20MB 测速 + 生成 AIO
   check_sources.py         # 校验 output/ 与来源清单一致(防孤儿目录)
+  make_speedtest_file.py   # 生成 20MB 测速文件(随机不可压缩,可复现)
+  ensure_speedtest_asset.sh # 确保 release:test 的测速文件存在(缺失自动重建)
   install_mihomo.sh        # 安装 mihomo 内核(SHA256 校验)+ 预热地理库
   mihomo.sha256            # 内核发行包校验和
 latest_urls.json           # yoyapai 最新文章信息
@@ -109,8 +116,24 @@ python scripts/check_sources.py                # 来源清单一致性
 ```
 
 常用调参:`--no-speed` 跳过测速;`--limit N` 只测前 N 个节点(调试);
-`--speed-url` 自定义测速文件;`--speed-max-nodes N` 限制测速节点数;
-`--speed-timeout` / `--speed-bytes` 控制单节点测速开销。
+`--speed-url` 自定义测速文件(逗号分隔可多个,全部会被测);
+`--speed-weight-cloudflare` / `--speed-weight-release` 调整加权平均权重(默认 0.6 / 0.4);
+`--speed-max-nodes N` 限制测速节点数;`--speed-timeout` / `--speed-bytes` 控制单节点测速开销。
+
+### 测速文件(release: test)
+
+测速文件由脚本确定性生成(20,000,000 字节随机数据,内容可复现),发布在 release `test`:
+
+```bash
+python scripts/make_speedtest_file.py -o speedtest-20mb.bin     # 生成
+gh release create test speedtest-20mb.bin --title test          # 首次发布
+gh release upload test speedtest-20mb.bin --clobber             # 重新发布
+
+# 或一条命令确保资产存在(CI 每次运行都会执行,缺失时自动重建)
+GH_TOKEN=xxx bash scripts/ensure_speedtest_asset.sh
+```
+
+工作流在测速前会调用 `ensure_speedtest_asset.sh` 检查该资产,缺失则自动重新生成并上传(失败也不影响整轮,会自动换用 Cloudflare 文件)。
 
 ## 安全提示
 

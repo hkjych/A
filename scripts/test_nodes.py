@@ -39,7 +39,16 @@ from sources import SOURCES
 
 TEST_URL = "https://www.gstatic.com/generate_204"
 
-# 测速文件候选(按顺序探测直连可达性):20MB 固定大小文件 + mihomo 发行包。
+# 测速文件候选(按顺序探测直连可达性):
+#   1. 本仓库 release:test 的 20MB 测速文件(CI 由 ensure_speedtest_asset.sh 保证存在)
+#   2. Cloudflare 20MB 下载端点
+#   3. mihomo 发行包(兜底)
+RELEASE_SPEED_URL = (
+    "https://github.com/wzmwayne/proxy-node/releases/download/test/speedtest-20mb.bin"
+)
+SPEED_BYTES = 20_000_000
+
+
 def default_speed_urls():
     import platform
 
@@ -47,10 +56,16 @@ def default_speed_urls():
         .get(platform.machine(), "amd64")
     version = os.environ.get("MIHOMO_VERSION", "v1.19.9")
     return [
-        "https://speed.cloudflare.com/__down?bytes=20000000",
+        RELEASE_SPEED_URL,
+        f"https://speed.cloudflare.com/__down?bytes={SPEED_BYTES}",
         f"https://github.com/MetaCubeX/mihomo/releases/download/{version}/mihomo-linux-{arch}-{version}.gz",
     ]
+
+
 SPEED_UA = "proxy-node-bot/1.0 (speedtest)"
+
+# 多测速文件加权平均的默认权重(Cloudflare 权重更高,缺失的目标按剩余权重归一化)
+SPEED_WEIGHTS = {"cloudflare": 0.6, "release": 0.4, "other": 0.5}
 
 GROUP_TYPES = {
     "Selector", "URLTest", "Fallback", "Relay", "LoadBalance", "Compatible",
@@ -122,7 +137,16 @@ class Core:
         self.keep_dir = keep_dir
         self.proc = None
 
-    def start(self, wait=60.0):
+    @staticmethod
+    def port_open(port, timeout=0.5):
+        s = socket.socket()
+        s.settimeout(timeout)
+        try:
+            return s.connect_ex(("127.0.0.1", port)) == 0
+        finally:
+            s.close()
+
+    def start(self, wait=60.0, wait_ports=None):
         cfg = {
             "mixed-port": find_free_ports(1)[0],
             "allow-lan": False,
@@ -145,16 +169,27 @@ class Core:
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
         )
         deadline = time.monotonic() + wait
+        ready = False
         while time.monotonic() < deadline:
             try:
                 api_get(self.ctrl_port, self.secret, "/version", timeout=3)
-                return self
+                ready = True
+                break
             except Exception:
                 if self.proc.poll() is not None:
                     raise SystemExit("[FAIL] mihomo 进程提前退出(配置无法加载?)")
                 time.sleep(0.2)
-        self.stop()
-        raise SystemExit("[FAIL] mihomo API 未就绪")
+        if not ready:
+            self.stop()
+            raise SystemExit("[FAIL] mihomo API 未就绪")
+        # API 就绪 ≠ listener 已绑定(实测相差约 0.2s),等端口真正可连再返回
+        if wait_ports:
+            deadline = time.monotonic() + 15
+            while time.monotonic() < deadline:
+                if all(self.port_open(p) for p in wait_ports):
+                    break
+                time.sleep(0.1)
+        return self
 
     def stop(self):
         if self.proc and self.proc.poll() is None:
@@ -194,11 +229,9 @@ def probe_direct(url, timeout=15):
         return False
 
 
-def pick_speed_url(candidates, timeout=15):
-    for url in candidates:
-        if probe_direct(url, timeout=timeout):
-            return url
-    return None
+def pick_speed_urls(candidates, timeout=15):
+    """返回所有直连可达的测速文件(自建 release 文件 + Cloudflare 等都测)。"""
+    return [u for u in candidates if probe_direct(u, timeout=timeout)]
 
 
 def measure_speed(port, url, max_bytes, timeout, early_bytes, early_rate):
@@ -236,6 +269,34 @@ def measure_speed(port, url, max_bytes, timeout, early_bytes, early_rate):
     if err and total < 1_000_000:
         return 0.0, total, el, err  # 只传了一点就断了,不算速度
     return rate, total, el, err
+
+
+def weighted_rate(rates, weights=None):
+    """按权重算加权平均速度;缺失的目标按剩余权重归一化(只有一个目标时即该目标速度)。"""
+    w = dict(SPEED_WEIGHTS if weights is None else weights)
+    num = den = 0.0
+    for tag, rate in rates.items():
+        weight = float(w.get(tag, w.get("other", 0.5)))
+        num += weight * rate
+        den += weight
+    return (num / den) if den > 0 else None
+
+
+def measure_node(port, urls, args, weights=None):
+    """对同一个节点依次测试所有测速文件,返回 (加权平均 MB/s, {文件: MB/s}, 明细)。"""
+    rates, details = {}, []
+    for url in urls:
+        rate, nbytes, secs, err = measure_speed(
+            port, url, args.speed_bytes, args.speed_timeout,
+            args.speed_early_bytes, args.speed_early_rate)
+        tag = "release" if "proxy-node" in url else ("cloudflare" if "cloudflare" in url else "other")
+        if nbytes:
+            rates[tag] = rate
+            details.append(f"{tag} {rate:.1f}MB/s {nbytes/1e6:.1f}MB {secs:.1f}s")
+        else:
+            details.append(f"{tag} 失败({err or 'no data'})")
+    avg = weighted_rate(rates, weights)
+    return (avg if avg is not None else 0.0), rates, "; ".join(details)
 
 
 def load_inputs(inputs):
@@ -276,7 +337,7 @@ def load_inputs(inputs):
 
 
 def build_aio(good, speeds, tested, threshold, n_inputs, speed_label, speed_enabled,
-              src_of_name, quality_min_speed, quality_max_delay):
+              src_of_name, quality_min_speed, quality_max_delay, target_summary=""):
     """good: [(proxy, delay)];speeds: {name: MB/s or None};src_of_name: {name: 来源标识}
 
     生成分组:
@@ -325,6 +386,8 @@ def build_aio(good, speeds, tested, threshold, n_inputs, speed_label, speed_enab
         fake_names.append(
             f"说明-测速: {len(fast)} 个节点 > {threshold:g} MB/s({speed_label}实测)"
         )
+        if target_summary:
+            fake_names.append(f"说明-测速分项: {target_summary}")
         fake_names.append(
             f"说明-优质节点: 速度 ≥ {quality_min_speed:g} MB/s 且延迟 ≤ {quality_max_delay} ms"
             f"(共 {len(quality)} 个)"
@@ -377,8 +440,11 @@ def build_aio(good, speeds, tested, threshold, n_inputs, speed_label, speed_enab
     }, len(fast), len(quality), src_stat
 
 
-def run_speed_batch(mihomo, batch, speed_url, args, ports):
-    """对一批节点启动绑定出口的监听器,并发测速。返回 {name: MB/s or None}。"""
+def run_speed_batch(mihomo, batch, speed_urls, args, ports, weights=None):
+    """对一批节点启动绑定出口的监听器,并发对**每个测速文件**测速。
+
+    返回 {name: (加权平均MB/s or None, {文件标签: MB/s})}。
+    """
     listeners = [
         {"name": f"spd-{i}", "type": "mixed", "port": ports[i],
          "listen": "127.0.0.1", "proxy": p["name"]}
@@ -387,28 +453,24 @@ def run_speed_batch(mihomo, batch, speed_url, args, ports):
     out = {}
     core = Core(mihomo, batch, ["MATCH,DIRECT"], listeners=listeners)
     try:
-        core.start(wait=30)
+        core.start(wait=30, wait_ports=ports)
     except SystemExit as e:
         core.stop()
         print(f"      [WARN] 测速内核启动失败,跳过本批 {len(batch)} 个节点: {e}")
-        return {p["name"]: None for p in batch}
+        return {p["name"]: (None, {}) for p in batch}
     try:
         with ThreadPoolExecutor(max_workers=len(batch)) as ex:
-            futs = {
-                ex.submit(measure_speed, ports[i], speed_url, args.speed_bytes,
-                          args.speed_timeout, args.speed_early_bytes, args.speed_early_rate): p["name"]
-                for i, p in enumerate(batch)
-            }
+            futs = {ex.submit(measure_node, ports[i], speed_urls, args, weights): p["name"]
+                    for i, p in enumerate(batch)}
             for fut in as_completed(futs):
                 name = futs[fut]
                 try:
-                    rate, nbytes, secs, err = fut.result()
+                    best, rates, detail = fut.result()
                 except Exception as e:  # 单个节点异常不影响整批
-                    rate, nbytes, secs, err = 0.0, 0, 0, str(e)[:80]
-                out[name] = rate if nbytes else None
+                    best, rates, detail = 0.0, {}, str(e)[:80]
+                out[name] = (best if rates else None, rates)
                 if args.verbose:
-                    print(f"        {name[:40]:40s} {rate:6.2f} MB/s "
-                          f"{nbytes/1e6:6.1f}MB {secs:5.2f}s {err or ''}")
+                    print(f"        {name[:34]:34s} 加权 {best:6.2f} MB/s | {detail}")
     finally:
         core.stop()
     return out
@@ -433,6 +495,10 @@ def main():
     ap.add_argument("--speed-early-rate", type=float, default=3.0, help="提前结束速率阈值(MB/s)")
     ap.add_argument("--speed-max-nodes", type=int, default=0, help="最多测速多少个节点(0=全部可达节点)")
     ap.add_argument("--fast-threshold", type=float, default=2.0, help="高速节点阈值(MB/s)")
+    ap.add_argument("--speed-weight-cloudflare", type=float, default=SPEED_WEIGHTS["cloudflare"],
+                    help="Cloudflare 测速文件权重(默认 0.6,高于 release 文件)")
+    ap.add_argument("--speed-weight-release", type=float, default=SPEED_WEIGHTS["release"],
+                    help="自建 release 测速文件权重(默认 0.4)")
     ap.add_argument("--quality-min-speed", type=float, default=1.0, help="优质节点最低速度(MB/s)")
     ap.add_argument("--quality-max-delay", type=int, default=1500, help="优质节点最高延迟(ms)")
     ap.add_argument("-v", "--verbose", action="store_true", help="打印每个节点的测速明细")
@@ -492,39 +558,54 @@ def main():
     if args.speed_max_nodes:
         candidates = candidates[:args.speed_max_nodes]
     speeds = {n: None for n in ok}
-    speed_url, speed_enabled = None, False
+    speed_enabled = False
     speed_label = "测试文件"
+    target_stats = {}
+    target_summary = ""
     if args.no_speed:
         print("[3/5] 测速: 已跳过(--no-speed)")
     else:
-        print(f"[3/5] 测速文件探测: {speed_urls}")
-        speed_url = pick_speed_url(speed_urls)
-        if not speed_url:
+        print(f"[3/5] 测速文件探测(全部可达的都测): {speed_urls}")
+        active_urls = pick_speed_urls(speed_urls)
+        if not active_urls:
             print("        [WARN] 测试文件直连不可达,跳过测速(节点名标注为 [未测速])")
         else:
             speed_enabled = True
-            speed_label = f"{args.speed_bytes // 1000000}MB 文件" if "cloudflare" in speed_url else "发行文件"
+            speed_label = f"{args.speed_bytes // 1000000}MB 文件"
             batches = [candidates[i:i + args.speed_concurrency]
                        for i in range(0, len(candidates), args.speed_concurrency)]
-            print(f"        使用 {speed_url}")
+            print(f"        测速文件 {len(active_urls)} 个: {active_urls}")
             print(f"        测速 {len(candidates)} 个节点,分 {len(batches)} 批,"
-                  f"每批 {args.speed_concurrency} 并发,单节点上限 "
+                  f"每批 {args.speed_concurrency} 并发,单文件上限 "
                   f"{args.speed_bytes/1e6:.0f}MB/{args.speed_timeout:g}s")
+            weights = {"cloudflare": args.speed_weight_cloudflare,
+                       "release": args.speed_weight_release}
+            print(f"        权重(加权平均): cloudflare {weights['cloudflare']:g} / "
+                  f"release {weights['release']:g}")
             for bi, batch in enumerate(batches, 1):
                 ports = find_free_ports(len(batch))
-                res = run_speed_batch(mihomo, [by_name[n] for n in batch], speed_url, args, ports)
-                speeds.update(res)
-                got = sum(1 for v in res.values() if v is not None)
-                fast_n = sum(1 for v in res.values() if v is not None and v > args.fast_threshold)
+                res = run_speed_batch(mihomo, [by_name[n] for n in batch], active_urls,
+                                      args, ports, weights)
+                for n, (best, rates) in res.items():
+                    speeds[n] = best
+                    for tag, rate in rates.items():
+                        target_stats.setdefault(tag, []).append(rate)
+                got = sum(1 for v, _ in res.values() if v is not None)
+                fast_n = sum(1 for v, _ in res.values() if v is not None and v > args.fast_threshold)
                 print(f"        批次 {bi}/{len(batches)}: 测速成功 {got}/{len(batch)},"
                       f"高速 {fast_n} ({time.monotonic()-t_start:.0f}s)", flush=True)
+            if target_stats:
+                target_summary = ", ".join(
+                    f"{tag}(w={weights.get(tag, 0.5):g}) {sum(v)/len(v):.1f}MB/s/{len(v)}个"
+                    for tag, v in sorted(target_stats.items()))
+                print(f"        各测速文件平均速度: {target_summary}")
 
     # 4) 排序 / 分组 / 标注
     good = [(by_name[n], ok[n]) for n in ok]
     aio, n_fast, n_quality, src_stat = build_aio(
         good, speeds, total, args.fast_threshold, len(args.inputs),
         speed_label, speed_enabled, src_of_name,
-        args.quality_min_speed, args.quality_max_delay,
+        args.quality_min_speed, args.quality_max_delay, target_summary,
     )
     print(f"[4/5] 生成 AIO: 全部精选 {len(good)} 个,"
           f"高速(>{args.fast_threshold:g}MB/s) {n_fast} 个,优质 {n_quality} 个")
