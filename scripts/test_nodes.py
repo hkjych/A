@@ -240,11 +240,13 @@ def pick_speed_urls(candidates, timeout=15):
     return [u for u in candidates if probe_direct(u, timeout=timeout)]
 
 
-def measure_speed(port, url, max_bytes, timeout, early_bytes, early_rate, min_bytes=1_000_000):
+def measure_speed(port, url, max_bytes, timeout, early_bytes, early_rate,
+                  min_bytes=1_000_000, min_window=0.2):
     """经 127.0.0.1:port 下载 url,返回 (MB/s, 字节数, 秒数, 失败原因)。
 
     只有"读到 >= min_bytes"或"确实读满 timeout 仍在传"才算有效速度;
     代理截断响应(字节数很小、耗时极短)一律判失败,避免出现虚假高速度。
+    提前结束还需要至少 min_window 秒的采样窗口,避免把瞬时突发当成持续速度。
     HTTP 429(Cloudflare 限速)重试一次。
     """
     min_valid = min(min_bytes, max_bytes)
@@ -267,11 +269,13 @@ def measure_speed(port, url, max_bytes, timeout, early_bytes, early_rate, min_by
                     now = time.monotonic()
                     if t_first is None:
                         t_first = now
-                    el = max(now - t_first, 0.3)  # 排除建连/TLS 握手,只算吞吐
+                    raw_el = now - t_first          # 真实采样窗口(不含建连)
+                    el = max(raw_el, 0.3)           # 速率估算下限,避免分母过小
                     if total >= max_bytes:
                         break
-                    if total >= early_bytes and total / el / 1e6 >= early_rate:
-                        break  # 明显超过阈值,提前结束省流量
+                    if (total >= early_bytes and raw_el >= min_window
+                            and total / el / 1e6 >= early_rate):
+                        break  # 采样窗口足够且明显超过阈值,提前结束省流量
                     if now - t0 >= timeout:
                         break
         except urllib.error.HTTPError as e:
@@ -324,7 +328,8 @@ def measure_node(port, urls, args, weights=None):
         futs = {
             ex.submit(measure_speed, port, url, args.speed_bytes, args.speed_timeout,
                       args.speed_early_bytes, args.speed_early_rate,
-                      getattr(args, "speed_min_bytes", 1_000_000)): url
+                      getattr(args, "speed_min_bytes", 1_000_000),
+                      getattr(args, "speed_min_window", 0.2)): url
             for url in urls
         }
         for fut in as_completed(futs):
@@ -550,6 +555,8 @@ def main():
                     help="延时复测失败也继续测速(默认跳过,节省时间)")
     ap.add_argument("--speed-min-bytes", type=int, default=1_000_000,
                     help="有效测速的最小字节数,低于此值且耗时很短视为被截断,判为失败")
+    ap.add_argument("--speed-min-window", type=float, default=0.2,
+                    help="提前结束所需的最小采样窗口(秒),避免瞬时突发被当成持续速度")
     ap.add_argument("--speed-max-nodes", type=int, default=0, help="最多测速多少个节点(0=全部可达节点)")
     ap.add_argument("--fast-threshold", type=float, default=2.0, help="高速节点阈值(MB/s)")
     ap.add_argument("--speed-weight-cloudflare", type=float, default=SPEED_WEIGHTS["cloudflare"],
