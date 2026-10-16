@@ -286,9 +286,14 @@ def measure_speed(port, url, max_bytes, timeout, early_bytes, early_rate, min_by
         if total == 0:
             return 0.0, 0, elapsed, err or "no data"
         el = time.monotonic() - (t_first or t0)
-        if total < min_valid and elapsed < timeout * 0.9:
-            return 0.0, total, el, (f"传输被截断({total/1e6:.2f}MB/{elapsed:.1f}s)"
-                                    + (f" {err}" if err else ""))
+        if total < min_valid:
+            if elapsed < timeout * 0.9:
+                # 很快结束却只有一点点数据 = 响应被代理/CDN 截断,不能算速度
+                return 0.0, total, el, (f"传输被截断({total/1e6:.2f}MB/{elapsed:.1f}s)"
+                                        + (f" {err}" if err else ""))
+            # 数据量不足且耗时很长 = 链路很慢:按整段耗时(含建连)保守计算,
+            # 否则"慢握手 + 小响应体"会被算成虚假高速度
+            return total / max(elapsed, 0.001) / 1e6, total, elapsed, err or "数据量不足"
         return total / max(el, 0.001) / 1e6, total, el, err
     return 0.0, 0, 0.0, err
 
