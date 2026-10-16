@@ -1,9 +1,30 @@
 #!/usr/bin/env python3
-"""订阅来源清单(集中维护)。
+"""订阅来源清单(集中维护) + GitHub 下载镜像支持。
 
 SOURCES:    来源标识 -> (显示名称, 主页 URL),供 sanitize.py 说明节点使用
 FETCH_URLS: 来源标识 -> 订阅文件 URL(yoyapai 由 scraper.py 抓取,不在此列)
 """
+import os
+
+# 国内直连 GitHub 不稳:设置 GH_PROXY(例如 https://ghproxy.net)后,
+# **抓取节点文件**时会自动走该镜像;节点测速不走镜像(必须直连测真实速度)。
+GH_PROXY = os.environ.get("GH_PROXY", "").rstrip("/")
+GITHUB_PREFIXES = (
+    "https://raw.githubusercontent.com/",
+    "https://github.com/",
+    "https://gist.githubusercontent.com/",
+    "https://objects.githubusercontent.com/",
+    "https://codeload.github.com/",
+)
+
+
+def mirror_url(url: str) -> str:
+    """把 GitHub 链接改写为镜像链接(未配置 GH_PROXY 时原样返回)。"""
+    if GH_PROXY and url.startswith(GITHUB_PREFIXES):
+        return f"{GH_PROXY}/{url}"
+    return url
+
+
 SOURCES = {
     "yoyapai": ("yoyapai.com", "https://yoyapai.com/category/mianfeijiedian"),
     "au1rxx": ("Au1rxx/free-vpn-subscriptions", "https://github.com/Au1rxx/free-vpn-subscriptions"),

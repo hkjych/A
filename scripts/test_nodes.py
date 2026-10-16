@@ -312,6 +312,8 @@ def probe_latency(port, url, timeout=5.0):
 def measure_node(port, urls, args, weights=None):
     """先测延时再测速:返回 (加权平均 MB/s, {文件: MB/s}, 明细, 延时 ms)。"""
     lat = probe_latency(port, TEST_URL, getattr(args, "speed_latency_timeout", 5.0))
+    if lat is None and getattr(args, "speed_require_latency", True):
+        return 0.0, {}, "延时复测失败,跳过测速", None
     results = {}
     with ThreadPoolExecutor(max_workers=max(1, len(urls))) as ex:
         futs = {
@@ -526,19 +528,21 @@ def main():
     ap.add_argument("-o", "--output", required=True, help="输出 AIO clash.yaml")
     ap.add_argument("--mihomo", default=None, help="mihomo 内核路径(默认 MIHOMO_BIN 或自动探测)")
     ap.add_argument("--concurrency", type=int, default=96, help="可达性(延迟)测试并发")
-    ap.add_argument("--timeout-ms", type=int, default=5000, help="单节点延迟测试超时")
+    ap.add_argument("--timeout-ms", type=int, default=4500, help="单节点延迟测试超时")
     ap.add_argument("--limit", type=int, default=0, help="只测试前 N 个节点(调试用,0=全部)")
     ap.add_argument("--no-speed", action="store_true", help="跳过测速阶段")
     ap.add_argument("--speed-url", default=os.environ.get("SPEED_TEST_URL", ""),
                     help="测速文件 URL(逗号分隔可多个,默认 20MB Cloudflare 文件)")
-    ap.add_argument("--speed-concurrency", type=int, default=48, help="测速并发(同时下载的节点数)")
+    ap.add_argument("--speed-concurrency", type=int, default=96, help="测速并发(同时下载的节点数)")
     ap.add_argument("--speed-bytes", type=int, default=20_000_000, help="单个节点最大下载字节数")
-    ap.add_argument("--speed-timeout", type=float, default=8.0, help="单个节点测速超时(秒)")
+    ap.add_argument("--speed-timeout", type=float, default=6.0, help="单个节点测速超时(秒,每个测试文件单独计时)")
     ap.add_argument("--speed-early-bytes", type=int, default=2_000_000,
                     help="已下载该字节数且速率已达标则提前结束(省流量)")
     ap.add_argument("--speed-early-rate", type=float, default=3.0, help="提前结束速率阈值(MB/s)")
-    ap.add_argument("--speed-latency-timeout", type=float, default=5.0,
+    ap.add_argument("--speed-latency-timeout", type=float, default=3.0,
                     help="测速前延时复测超时(秒)")
+    ap.add_argument("--no-speed-require-latency", action="store_true",
+                    help="延时复测失败也继续测速(默认跳过,节省时间)")
     ap.add_argument("--speed-min-bytes", type=int, default=1_000_000,
                     help="有效测速的最小字节数,低于此值且耗时很短视为被截断,判为失败")
     ap.add_argument("--speed-max-nodes", type=int, default=0, help="最多测速多少个节点(0=全部可达节点)")
@@ -552,6 +556,7 @@ def main():
     ap.add_argument("-v", "--verbose", action="store_true", help="打印每个节点的测速明细")
     ap.add_argument("--keep-temp", action="store_true", help="保留内核临时目录(调试)")
     args = ap.parse_args()
+    args.speed_require_latency = not args.no_speed_require_latency
 
     t_start = time.monotonic()
     mihomo = find_mihomo(args.mihomo)

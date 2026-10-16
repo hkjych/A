@@ -24,6 +24,11 @@ esac
 
 ASSET="mihomo-linux-${ARCH}-${VERSION}.gz"
 URL="https://github.com/MetaCubeX/mihomo/releases/download/${VERSION}/${ASSET}"
+# 国内可用 GH_PROXY(如 https://ghproxy.net)加速下载;CI 上不设置,直连
+if [ -n "${GH_PROXY:-}" ]; then
+  URL="${GH_PROXY%/}/$URL"
+  echo "[INFO] 使用 GH_PROXY 镜像: $URL"
+fi
 BIN="$CACHE/mihomo-${VERSION}-${ARCH}"
 
 mkdir -p "$CACHE" "$GEO_DIR"

@@ -11,9 +11,12 @@ TAG="${SPEEDTEST_TAG:-test}"
 ASSET="${SPEEDTEST_ASSET:-speedtest-20mb.bin}"
 REPO="${GITHUB_REPOSITORY:-wzmwayne/proxy-node}"
 URL="https://github.com/${REPO}/releases/download/${TAG}/${ASSET}"
+# 测速本身必须直连(镜像只用于检查/上传),镜像仅作为本地可达性兜底
+MIRROR_URL="${GH_PROXY:+${GH_PROXY%/}/}${URL}"
 
-if curl -fsSIL --retry 3 --retry-delay 2 -o /dev/null "$URL"; then
-  echo "[OK] 测速文件已就绪: $URL"
+if curl -fsSIL --retry 3 --retry-delay 2 -o /dev/null "$URL" \
+   || { [ "$MIRROR_URL" != "$URL" ] && curl -fsSIL --retry 3 --retry-delay 2 -o /dev/null "$MIRROR_URL"; }; then
+  echo "[OK] 测速文件已就绪(测速时使用直连): $URL"
   exit 0
 fi
 

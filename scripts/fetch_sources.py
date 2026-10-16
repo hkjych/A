@@ -15,7 +15,7 @@ import sys
 
 import requests
 
-from sources import FETCH_URLS
+from sources import FETCH_URLS, GH_PROXY, mirror_url
 
 HEADERS = {"User-Agent": "proxy-node-bot/1.0"}
 RAW_NAME = "clash.raw.yaml"
@@ -28,18 +28,31 @@ def fetch_one(name, url):
     dst = os.path.join(out_dir, RAW_NAME)
     if os.path.exists(dst):
         os.unlink(dst)  # 失败时不会残留上一轮原始文件
-    print(f"  [GET] {name}: {url}")
-    resp = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
-    resp.raise_for_status()
-    if not resp.content.strip():
-        raise ValueError("返回内容为空")
-    with open(dst, "wb") as f:
-        f.write(resp.content)
-    print(f"  [OK] {name} ({len(resp.content)} bytes)")
-    return len(resp.content)
+
+    urls = [mirror_url(url)]
+    if urls[0] != url:
+        urls.append(url)  # 镜像失败回退直连
+    last_err = None
+    for u in urls:
+        try:
+            print(f"  [GET] {name}: {u}")
+            resp = requests.get(u, headers=HEADERS, timeout=TIMEOUT)
+            resp.raise_for_status()
+            if not resp.content.strip():
+                raise ValueError("返回内容为空")
+            with open(dst, "wb") as f:
+                f.write(resp.content)
+            print(f"  [OK] {name} ({len(resp.content)} bytes)")
+            return len(resp.content)
+        except Exception as e:
+            last_err = e
+            print(f"  [WARN] {name} 下载失败({u}): {e}")
+    raise last_err
 
 
 def main():
+    if GH_PROXY:
+        print(f"  [INFO] 使用 GitHub 镜像 GH_PROXY={GH_PROXY}(仅抓取节点文件,测速不走镜像)")
     names = sys.argv[1:] if len(sys.argv) > 1 else list(FETCH_URLS)
     unknown = [n for n in names if n not in FETCH_URLS]
     if unknown:

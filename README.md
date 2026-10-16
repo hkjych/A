@@ -137,6 +137,19 @@ GH_TOKEN=xxx bash scripts/ensure_speedtest_asset.sh
 
 工作流在测速前会调用 `ensure_speedtest_asset.sh` 检查该资产,缺失则自动重新生成并上传(失败也不影响整轮,会自动换用 Cloudflare 文件)。
 
+### 国内加速(GH_PROXY)
+
+国内直连 GitHub 不稳时,设置 `GH_PROXY` 让**抓取节点文件 / 下载内核**走镜像(实测可用 ghproxy.net):
+
+```bash
+export GH_PROXY=https://ghproxy.net
+bash scripts/install_mihomo.sh      # 内核下载走镜像(仍校验 SHA256)
+python scripts/fetch_sources.py     # 各来源订阅走镜像,失败自动回退直连
+```
+
+> **注意:节点测速不走镜像。** 测速必须让节点直连真实测试文件(本仓库 release 资产 + Cloudflare),
+> 否则测到的是镜像链路速度而不是节点速度。CI 上不设置 `GH_PROXY`,全程直连。
+
 ## 安全提示
 
 - 所有节点均来自**第三方公开来源**,服务器不受本项目控制,请勿用于登录敏感账号或传输隐私数据;

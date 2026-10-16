@@ -99,11 +99,13 @@ jobs:
           fi
           python scripts/test_nodes.py $INPUTS -o output/aio/clash.yaml \
             --mihomo "$MIHOMO_BIN" \
-            --concurrency 96 \
-            --speed-concurrency 48 \
+            --concurrency 128 \
+            --timeout-ms 4500 \
+            --speed-concurrency 128 \
+            --speed-timeout 5 \
+            --speed-latency-timeout 3 \
             --fast-threshold 2.0 \
             --speed-bytes 20000000 \
-            --speed-timeout 8 \
             || echo "::warning::AIO 生成失败（节点测试异常），保留上一版"
 
       - name: 校验 AIO
