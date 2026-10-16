@@ -83,30 +83,30 @@ proxies:
   skip-cert-verify: true
   tls: true
   sni: www.bing.com
-- name: "\u7F57\u9A6C\u5C3C\u4E9A-006 |1.1MB/s|TK-RO|GPT\u207A-RO|GM-RO"
-  type: http
-  server: 193.176.84.30
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-  sni: www.bing.com
-- name: "\u7F57\u9A6C\u5C3C\u4E9A-007 |1.1MB/s"
+- name: "\u7F57\u9A6C\u5C3C\u4E9A-006 |1.1MB/s"
   type: http
   server: 193.176.84.40
   port: 9002
   skip-cert-verify: true
   tls: true
   sni: www.bing.com
+- name: "\u7F57\u9A6C\u5C3C\u4E9A-007 |1.1MB/s|TK-RO|GPT\u207A-RO|GM-RO"
+  type: http
+  server: 193.176.84.30
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+  sni: www.bing.com
 - name: "\u7F57\u9A6C\u5C3C\u4E9A-008 |1.0MB/s"
   type: http
-  server: 193.176.84.26
+  server: 193.176.84.23
   port: 9002
   skip-cert-verify: true
   tls: true
   sni: www.bing.com
 - name: "\u7F57\u9A6C\u5C3C\u4E9A-009 |1.0MB/s"
   type: http
-  server: 193.176.84.23
+  server: 193.176.84.26
   port: 9002
   skip-cert-verify: true
   tls: true
@@ -188,7 +188,25 @@ proxies:
   skip-cert-verify: true
   tls: true
   sni: www.bing.com
-- name: "\u7F8E\u56FD-001"
+- name: "\u7F8E\u56FD-001 |3.3MB/s|TK-US|YT-US|GPT\u207A-US|GM-US"
+  type: http
+  server: 138.199.35.215
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+- name: "\u7F8E\u56FD-002 |3.2MB/s|TK-US|YT-US|GPT\u207A-US|GM-US"
+  type: http
+  server: 38.28.193.188
+  port: 443
+  skip-cert-verify: true
+  tls: true
+- name: "\u7F8E\u56FD-003 |1.0MB/s|TK-US|GPT\u207A-US"
+  type: http
+  server: 138.199.35.198
+  port: 9002
+  skip-cert-verify: true
+  tls: true
+- name: "\u7F8E\u56FD-004"
   type: vless
   network: ws
   uuid: ff0b6ba8-bed0-4c4d-bbc9-23af47582615
@@ -203,40 +221,12 @@ proxies:
     headers:
       Host: wstg.datasynctrue.online
     path: /api/connect
-- name: "\u7F8E\u56FD-002 |3.3MB/s|TK-US|YT-US|GPT\u207A-US|GM-US"
-  type: http
-  server: 138.199.35.215
-  port: 9002
-  skip-cert-verify: true
-  tls: true
-- name: "\u7F8E\u56FD-003 |3.2MB/s|TK-US|YT-US|GPT\u207A-US|GM-US"
-  type: http
-  server: 38.28.193.188
-  port: 443
-  skip-cert-verify: true
-  tls: true
-- name: "\u7F8E\u56FD-004 |1.0MB/s|TK-US|GPT\u207A-US"
-  type: http
-  server: 138.199.35.198
-  port: 9002
-  skip-cert-verify: true
-  tls: true
 - name: "\u7F8E\u56FD-005 |1.5MB/s|TK-US|YT-US|GPT\u207A-US|GM-US"
   type: http
   server: 209.148.53.153
   port: 8090
   skip-cert-verify: true
   tls: true
-- name: "\u7F8E\u56FD-006"
-  type: vless
-  network: ws
-  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
-  server: 63.141.128.30
-  port: 8880
-  ws-opts:
-    headers:
-      Host: vms.lifetime42.workers.dev
-    path: /
 - name: "\u8377\u5170-001 |2.1MB/s|TK-NL|GPT\u207A-NL|GM-NL"
   type: http
   server: 84.17.47.150
@@ -278,14 +268,14 @@ proxies:
   udp: true
   skip-cert-verify: true
 - name: "\u8BF4\u660E-\u6E05\u6D17\u7ED3\u679C: \u6E05\u7406 0 \u4E2A\u8282\u70B9\u3001\
-    \u8F6C\u8BD1 124 \u4E2A\u5B57\u7B26"
+    \u8F6C\u8BD1 122 \u4E2A\u5B57\u7B26"
   type: trojan
   server: 127.0.0.1
   port: 443
   password: dummy
   udp: true
   skip-cert-verify: true
-- name: "\u8BF4\u660E-\u66F4\u65B0\u65F6\u95F4: 2026-10-16 16:38 (CST)"
+- name: "\u8BF4\u660E-\u66F4\u65B0\u65F6\u95F4: 2026-10-16 23:51 (CST)"
   type: trojan
   server: 127.0.0.1
   port: 443
