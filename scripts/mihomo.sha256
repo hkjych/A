@@ -1,0 +1,4 @@
+# mihomo 发行包 SHA256(格式:版本 文件名 校验和)
+# 由 scripts/install_mihomo.sh 校验,升级版本时同步更新此文件。
+v1.19.9 mihomo-linux-amd64-v1.19.9.gz 840d0c8f56b2a24e6161f0c0870af2a3cd50662008ae6a071789ae0dc4185cf9
+v1.19.9 mihomo-linux-arm64-v1.19.9.gz b966c7dfa17899adfb3bffc122ecc608ff32cf925833614d0b4de089b6480f2b

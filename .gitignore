@@ -1,2 +1,6 @@
 __pycache__/
 *.pyc
+# 抓取原文(暂存,不入库;清洗 + 内核校验通过后才会替换 clash.yaml)
+output/*/clash.raw.yaml
+*.tmp
+.cache/
