@@ -167,7 +167,15 @@ python scripts/local_test_cn.py --no-fetch  # 跳过抓取，直接测仓库里�
 - 省流量/快速验证：`--limit 300`（只测前 300 个）+ `--speed-max-nodes 80`（只测速 80 个）；
 - 想直接测某个订阅文件：`python scripts/local_test_cn.py --input 订阅.yaml`；
 - 国内网络下很多免费节点到 GitHub/Cloudflare 的 20MB 文件本身就不通（会被判 `[测速失败]`），这是真实结果；
-  如需换/加测速文件：`--speed-url "https://你的文件,https://..."`（仍要求直连，不走镜像）；
+- **国内模式**：加 `--cn-speed` 会改用「国内镜像大文件 + Cloudflare」做测速目标（仍直连、不走 ghproxy），
+  实测同一批节点到华为云镜像均值 2.0MB/s、到 Cloudflare 只有 0.2MB/s，国内模式更能反映"国内可用速度"：
+
+  ```bash
+  python scripts/local_test_cn.py --no-fetch --cn-speed --speed-max-nodes 200
+  python scripts/local_test_cn.py --input 线上AIO.yaml --cn-speed      # 测线上订阅在国内的可用性
+  ```
+
+- 如需换/加测速文件：`--speed-url "https://你的文件,https://..."`（仍要求直连，不走镜像）；
 - 需要内核时脚本会自动下载（走 ghproxy + SHA256 校验），也可用 `MIHOMO_BIN` 指定已有内核。
 
 ## 安全提示

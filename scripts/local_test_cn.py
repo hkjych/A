@@ -39,6 +39,14 @@ DEFAULT_GH_PROXY = "https://ghproxy.net"
 DEFAULT_OUTPUT = os.path.join("output", "aio", "clash-cn.yaml")
 NET_LABEL = "国内本地网络"
 
+# 国内模式(--cn-speed)的测速目标:国内镜像大文件 + Cloudflare。
+# GitHub release 资产在国内多数节点上拉不动,国内模式用镜像文件替代它;
+# 都是直连测试,不经过 ghproxy 之类的镜像代理。
+CN_SPEED_URLS = [
+    "https://mirrors.huaweicloud.com/ubuntu-releases/22.04/ubuntu-22.04.5-live-server-amd64.iso",
+    "https://speed.cloudflare.com/__down?bytes=20000000",
+]
+
 
 def step(title):
     print()
@@ -99,6 +107,8 @@ def main():
                     help="测速前延时复测超时(秒,国内家宽建议 5~8)")
     ap.add_argument("-v", "--verbose", action="store_true", help="打印每个节点的测速明细")
     ap.add_argument("--speed-url", default="", help="自定义测速文件(逗号分隔,默认 release:test + Cloudflare)")
+    ap.add_argument("--cn-speed", action="store_true",
+                    help="国内模式:用国内镜像大文件替代 GitHub release 文件做测速目标(直连,不走镜像代理)")
     ap.add_argument("--fast-threshold", type=float, default=2.0, help="高速节点阈值(MB/s)")
     ap.add_argument("--quality-min-speed", type=float, default=1.0, help="优质节点最低速度(MB/s)")
     ap.add_argument("--quality-max-delay", type=int, default=1500, help="优质节点最高延迟(ms)")
@@ -192,6 +202,9 @@ def main():
         cmd += ["-v"]
     if args.speed_url:
         cmd += ["--speed-url", args.speed_url]
+    elif args.cn_speed:
+        cmd += ["--speed-url", ",".join(CN_SPEED_URLS)]
+        print(f"  [INFO] 国内模式测速文件: {CN_SPEED_URLS}")
     if run(cmd, env) != 0:
         raise SystemExit("[FAIL] AIO 生成失败,请查看上面的日志")
 
