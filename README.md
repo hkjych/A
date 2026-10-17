@@ -151,6 +151,23 @@ python scripts/fetch_sources.py     # 各来源订阅走镜像,失败自动回�
 > **注意:节点测速不走镜像。** 测速必须让节点直连真实测试文件(本仓库 release 资产 + Cloudflare),
 > 否则测到的是镜像链路速度而不是节点速度。CI 上不设置 `GH_PROXY`,全程直连。
 
+## 国内本地使用（测"国内可用"的节点）
+
+在**国内网络**的电脑/手机上直接跑，一条命令得到一份"国内视角"的订阅：
+
+```bash
+python scripts/local_test_cn.py             # 全流程：抓取(ghproxy) -> 清洗 -> 本机实测 -> AIO
+python scripts/local_test_cn.py --no-fetch  # 跳过抓取，直接测仓库里已发布的 output/*/clash.yaml
+                                            # （等价于"线上订阅在国内哪些可用"）
+```
+
+- GitHub 节点文件默认走 `GH_PROXY=https://ghproxy.net`，**不需要代理**；可用 `--gh-proxy` / `--no-gh-proxy` 覆盖；
+- **节点测速始终直连**（release:test 的 20MB 文件 + Cloudflare 文件），不走镜像，否则测到的是镜像速度；
+- 默认输出 `output/aio/clash-cn.yaml`（已 gitignore，不会提交），节点名带 `[x.xMB/s]`，说明节点会标注 `说明-测试网络: 国内本地网络`；
+- 省流量/快速验证：`--limit 300`（只测前 300 个）+ `--speed-max-nodes 80`（只测速 80 个）；
+- 想直接测某个订阅文件：`python scripts/local_test_cn.py --input 订阅.yaml`；
+- 需要内核时脚本会自动下载（走 ghproxy + SHA256 校验），也可用 `MIHOMO_BIN` 指定已有内核。
+
 ## 安全提示
 
 - 所有节点均来自**第三方公开来源**,服务器不受本项目控制,请勿用于登录敏感账号或传输隐私数据;

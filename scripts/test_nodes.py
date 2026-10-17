@@ -394,7 +394,7 @@ def load_inputs(inputs):
 
 def build_aio(good, speeds, tested, threshold, n_inputs, speed_label, speed_enabled,
               src_of_name, quality_min_speed, quality_max_delay, target_summary="",
-              tested_names=None):
+              tested_names=None, net_label=""):
     tested_names = tested_names or set()
     """good: [(proxy, delay)];speeds: {name: MB/s or None};src_of_name: {name: 来源标识}
 
@@ -436,10 +436,10 @@ def build_aio(good, speeds, tested, threshold, n_inputs, speed_label, speed_enab
     quality_names = [name_of[id(p)] for p, _, _ in quality]
 
     now = time.strftime("%Y-%m-%d %H:%M", time.gmtime(time.time() + 8 * 3600))
-    fake_names = [
-        f"说明-来源: AIO 精选(合并 {n_inputs} 个来源)",
-        f"说明-延迟测试: {len(good)}/{tested} 节点通过 generate_204",
-    ]
+    fake_names = [f"说明-来源: AIO 精选(合并 {n_inputs} 个来源)"]
+    if net_label:
+        fake_names.append(f"说明-测试网络: {net_label}")
+    fake_names.append(f"说明-延迟测试: {len(good)}/{tested} 节点通过 generate_204")
     if speed_enabled:
         fake_names.append(
             f"说明-测速: {len(fast)} 个节点 > {threshold:g} MB/s({speed_label}实测)"
@@ -562,6 +562,7 @@ def main():
                     help="提前结束所需的最小采样窗口(秒),避免瞬时突发被当成持续速度")
     ap.add_argument("--speed-max-nodes", type=int, default=0, help="最多测速多少个节点(0=全部可达节点)")
     ap.add_argument("--fast-threshold", type=float, default=2.0, help="高速节点阈值(MB/s)")
+    ap.add_argument("--net-label", default="", help="测试网络标注(写入说明节点,如'国内本地网络')")
     ap.add_argument("--speed-weight-cloudflare", type=float, default=SPEED_WEIGHTS["cloudflare"],
                     help="Cloudflare 测速文件权重(默认 0.6,高于 release 文件)")
     ap.add_argument("--speed-weight-release", type=float, default=SPEED_WEIGHTS["release"],
@@ -679,7 +680,7 @@ def main():
         good, speeds, total, args.fast_threshold, len(args.inputs),
         speed_label, speed_enabled, src_of_name,
         args.quality_min_speed, args.quality_max_delay, target_summary,
-        tested_names=speed_tested,
+        tested_names=speed_tested, net_label=args.net_label,
     )
     print(f"[4/5] 生成 AIO: 全部精选 {len(good)} 个,"
           f"高速(>{args.fast_threshold:g}MB/s) {n_fast} 个,优质 {n_quality} 个")
