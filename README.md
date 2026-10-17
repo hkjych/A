@@ -166,6 +166,8 @@ python scripts/local_test_cn.py --no-fetch  # 跳过抓取，直接测仓库里�
 - 默认输出 `output/aio/clash-cn.yaml`（已 gitignore，不会提交），节点名带 `[x.xMB/s]`，说明节点会标注 `说明-测试网络: 国内本地网络`；
 - 省流量/快速验证：`--limit 300`（只测前 300 个）+ `--speed-max-nodes 80`（只测速 80 个）；
 - 想直接测某个订阅文件：`python scripts/local_test_cn.py --input 订阅.yaml`；
+- 国内网络下很多免费节点到 GitHub/Cloudflare 的 20MB 文件本身就不通（会被判 `[测速失败]`），这是真实结果；
+  如需换/加测速文件：`--speed-url "https://你的文件,https://..."`（仍要求直连，不走镜像）；
 - 需要内核时脚本会自动下载（走 ghproxy + SHA256 校验），也可用 `MIHOMO_BIN` 指定已有内核。
 
 ## 安全提示

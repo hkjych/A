@@ -321,7 +321,7 @@ def probe_latency(port, url, timeout=5.0):
 def measure_node(port, urls, args, weights=None):
     """先测延时再测速:返回 (加权平均 MB/s, {文件: MB/s}, 明细, 延时 ms)。"""
     lat = probe_latency(port, TEST_URL, getattr(args, "speed_latency_timeout", 5.0))
-    if lat is None and getattr(args, "speed_require_latency", True):
+    if lat is None and getattr(args, "speed_require_latency", False):
         return 0.0, {}, "延时复测失败,跳过测速", None
     results = {}
     with ThreadPoolExecutor(max_workers=max(1, len(urls))) as ex:
@@ -554,8 +554,8 @@ def main():
     ap.add_argument("--speed-early-rate", type=float, default=3.0, help="提前结束速率阈值(MB/s)")
     ap.add_argument("--speed-latency-timeout", type=float, default=3.0,
                     help="测速前延时复测超时(秒)")
-    ap.add_argument("--no-speed-require-latency", action="store_true",
-                    help="延时复测失败也继续测速(默认跳过,节省时间)")
+    ap.add_argument("--skip-speed-on-latency-fail", action="store_true",
+                    help="延时复测失败时跳过测速(默认不跳过,保证每个可达节点都被真实测速)")
     ap.add_argument("--speed-min-bytes", type=int, default=1_000_000,
                     help="有效测速的最小字节数,低于此值且耗时很短视为被截断,判为失败")
     ap.add_argument("--speed-min-window", type=float, default=0.2,
@@ -572,7 +572,7 @@ def main():
     ap.add_argument("-v", "--verbose", action="store_true", help="打印每个节点的测速明细")
     ap.add_argument("--keep-temp", action="store_true", help="保留内核临时目录(调试)")
     args = ap.parse_args()
-    args.speed_require_latency = not args.no_speed_require_latency
+    args.speed_require_latency = args.skip_speed_on_latency_fail
 
     t_start = time.monotonic()
     mihomo = find_mihomo(args.mihomo)

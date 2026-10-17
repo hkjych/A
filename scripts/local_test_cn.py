@@ -95,6 +95,10 @@ def main():
     ap.add_argument("--speed-max-nodes", type=int, default=0, help="最多测速多少个节点(0=全部可达)")
     ap.add_argument("--speed-bytes", type=int, default=20_000_000, help="单文件测速上限字节")
     ap.add_argument("--speed-timeout", type=float, default=5.0, help="单节点单文件测速超时(秒)")
+    ap.add_argument("--speed-latency-timeout", type=float, default=6.0,
+                    help="测速前延时复测超时(秒,国内家宽建议 5~8)")
+    ap.add_argument("-v", "--verbose", action="store_true", help="打印每个节点的测速明细")
+    ap.add_argument("--speed-url", default="", help="自定义测速文件(逗号分隔,默认 release:test + Cloudflare)")
     ap.add_argument("--fast-threshold", type=float, default=2.0, help="高速节点阈值(MB/s)")
     ap.add_argument("--quality-min-speed", type=float, default=1.0, help="优质节点最低速度(MB/s)")
     ap.add_argument("--quality-max-delay", type=int, default=1500, help="优质节点最高延迟(ms)")
@@ -174,6 +178,7 @@ def main():
            "--timeout-ms", str(args.timeout_ms),
            "--speed-concurrency", str(args.speed_concurrency),
            "--speed-timeout", str(args.speed_timeout),
+           "--speed-latency-timeout", str(args.speed_latency_timeout),
            "--speed-bytes", str(args.speed_bytes),
            "--fast-threshold", str(args.fast_threshold),
            "--quality-min-speed", str(args.quality_min_speed),
@@ -183,6 +188,10 @@ def main():
         cmd += ["--limit", str(args.limit)]
     if args.speed_max_nodes:
         cmd += ["--speed-max-nodes", str(args.speed_max_nodes)]
+    if args.verbose:
+        cmd += ["-v"]
+    if args.speed_url:
+        cmd += ["--speed-url", args.speed_url]
     if run(cmd, env) != 0:
         raise SystemExit("[FAIL] AIO 生成失败,请查看上面的日志")
 
