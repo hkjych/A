@@ -393,7 +393,9 @@ def load_inputs(inputs):
 
 
 def build_aio(good, speeds, tested, threshold, n_inputs, speed_label, speed_enabled,
-              src_of_name, quality_min_speed, quality_max_delay, target_summary=""):
+              src_of_name, quality_min_speed, quality_max_delay, target_summary="",
+              tested_names=None):
+    tested_names = tested_names or set()
     """good: [(proxy, delay)];speeds: {name: MB/s or None};src_of_name: {name: 来源标识}
 
     生成分组:
@@ -419,8 +421,8 @@ def build_aio(good, speeds, tested, threshold, n_inputs, speed_label, speed_enab
 
     def annotate(p, rate):
         base = strip_annotation(p["name"])
-        if not speed_enabled:
-            tag = "[未测速]"
+        if not speed_enabled or p["name"] not in tested_names:
+            tag = "[未测速]"          # 本轮没有对它做测速(例如受 --speed-max-nodes 限制)
         elif rate is None:
             tag = "[测速失败]"
         else:
@@ -442,6 +444,7 @@ def build_aio(good, speeds, tested, threshold, n_inputs, speed_label, speed_enab
         fake_names.append(
             f"说明-测速: {len(fast)} 个节点 > {threshold:g} MB/s({speed_label}实测)"
         )
+        fake_names.append(f"说明-测速覆盖: {len(tested_names)}/{len(good)} 个可达节点")
         if target_summary:
             fake_names.append(f"说明-测速分项: {target_summary}")
         fake_names.append(
@@ -624,6 +627,7 @@ def main():
         candidates = candidates[:args.speed_max_nodes]
     speeds = {n: None for n in ok}
     delays = {n: ok[n] for n in ok}
+    speed_tested = set()
     speed_enabled = False
     speed_label = "测试文件"
     target_stats = {}
@@ -654,6 +658,7 @@ def main():
                                       args, ports, weights)
                 for n, (best, rates, lat) in res.items():
                     speeds[n] = best
+                    speed_tested.add(n)
                     if lat is not None:
                         delays[n] = lat  # 测速前复测的延时,用于优质判定
                     for tag, rate in rates.items():
@@ -674,6 +679,7 @@ def main():
         good, speeds, total, args.fast_threshold, len(args.inputs),
         speed_label, speed_enabled, src_of_name,
         args.quality_min_speed, args.quality_max_delay, target_summary,
+        tested_names=speed_tested,
     )
     print(f"[4/5] 生成 AIO: 全部精选 {len(good)} 个,"
           f"高速(>{args.fast_threshold:g}MB/s) {n_fast} 个,优质 {n_quality} 个")
