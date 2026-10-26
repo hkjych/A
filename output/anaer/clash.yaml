@@ -1,5 +1,16 @@
 proxies:
 - name: "\u5176\u4ED6-001"
+  type: trojan
+  network: ws
+  server: www.calmlunch.com
+  port: 443
+  password: humanity
+  sni: www.calmlunch.com
+  ws-opts:
+    headers:
+      Host: www.calmlunch.com
+    path: /assignment
+- name: "\u5176\u4ED6-002"
   type: vless
   network: ws
   uuid: 495c7195-85b8-498a-bf20-2ea9ce9175b5
@@ -17,7 +28,7 @@ proxies:
     path: /
   client-fingerprint: unsafe
   encryption: none
-- name: "\u5176\u4ED6-002"
+- name: "\u5176\u4ED6-003"
   type: vmess
   network: ws
   uuid: 6a89a215-22bf-4bd7-9642-b95b2e09583a
@@ -59,18 +70,6 @@ proxies:
   up: 500
   down: 1000
   auth_str: dongtaiwang.com
-- name: "\u5FB7\u56FD-003"
-  type: trojan
-  network: ws
-  server: 185.220.100.168
-  port: 443
-  password: humanity
-  skip-cert-verify: false
-  sni: www.calmlunch.com
-  ws-opts:
-    headers:
-      Host: www.calmlunch.com
-    path: /assignment
 - name: "\u65E5\u672C-001"
   type: trojan
   network: tcp
@@ -139,14 +138,14 @@ proxies:
   sni: www.bing.com
 - name: "\u7F57\u9A6C\u5C3C\u4E9A-008 |1.0MB/s"
   type: http
-  server: 193.176.84.23
+  server: 193.176.84.26
   port: 9002
   skip-cert-verify: true
   tls: true
   sni: www.bing.com
 - name: "\u7F57\u9A6C\u5C3C\u4E9A-009 |1.0MB/s"
   type: http
-  server: 193.176.84.26
+  server: 193.176.84.23
   port: 9002
   skip-cert-verify: true
   tls: true
@@ -228,25 +227,37 @@ proxies:
   skip-cert-verify: true
   tls: true
   sni: www.bing.com
-- name: "\u7F8E\u56FD-001 |3.3MB/s|TK-US|YT-US|GPT\u207A-US|GM-US"
+- name: "\u7F8E\u56FD-001"
+  type: vless
+  network: ws
+  uuid: 6202b230-417c-4d8e-b624-0f71afa9c75d
+  server: 63.141.128.30
+  port: 8880
+  tls: false
+  ws-opts:
+    headers:
+      Host: vms.lifetime42.workers.dev
+    path: /
+  encryption: none
+- name: "\u7F8E\u56FD-002 |3.3MB/s|TK-US|YT-US|GPT\u207A-US|GM-US"
   type: http
   server: 138.199.35.215
   port: 9002
   skip-cert-verify: true
   tls: true
-- name: "\u7F8E\u56FD-002 |3.2MB/s|TK-US|YT-US|GPT\u207A-US|GM-US"
+- name: "\u7F8E\u56FD-003 |3.2MB/s|TK-US|YT-US|GPT\u207A-US|GM-US"
   type: http
   server: 38.28.193.188
   port: 443
   skip-cert-verify: true
   tls: true
-- name: "\u7F8E\u56FD-003 |1.5MB/s|TK-US|YT-US|GPT\u207A-US|GM-US"
+- name: "\u7F8E\u56FD-004 |1.5MB/s|TK-US|YT-US|GPT\u207A-US|GM-US"
   type: http
   server: 209.148.53.153
   port: 8090
   skip-cert-verify: true
   tls: true
-- name: "\u7F8E\u56FD-004 |1.0MB/s|TK-US|GPT\u207A-US"
+- name: "\u7F8E\u56FD-005 |1.0MB/s|TK-US|GPT\u207A-US"
   type: http
   server: 138.199.35.198
   port: 9002
@@ -276,15 +287,6 @@ proxies:
   port: 9002
   skip-cert-verify: true
   tls: true
-- name: "\u97E9\u56FD-001"
-  type: vmess
-  network: tcp
-  uuid: 35aa0fda-175a-4aec-c468-0231dee1a121
-  server: 43.108.103.167
-  port: 123
-  skip-cert-verify: true
-  alterId: 0
-  cipher: auto
 - name: "\u8BF4\u660E-\u6765\u6E90: anaer.github.io/Sub"
   type: trojan
   server: 127.0.0.1
@@ -300,7 +302,7 @@ proxies:
   password: dummy
   udp: true
   skip-cert-verify: true
-- name: "\u8BF4\u660E-\u66F4\u65B0\u65F6\u95F4: 2026-10-26 17:32 (CST)"
+- name: "\u8BF4\u660E-\u66F4\u65B0\u65F6\u95F4: 2026-10-27 02:00 (CST)"
   type: trojan
   server: 127.0.0.1
   port: 443
@@ -328,6 +330,6 @@ proxy-groups:
   - "\u8BF4\u660E-\u6765\u6E90: anaer.github.io/Sub"
   - "\u8BF4\u660E-\u6E05\u6D17\u7ED3\u679C: \u6E05\u7406 0 \u4E2A\u8282\u70B9\u3001\
     \u4FEE\u590D 0 \u5904\u5F15\u7528\u3001\u8F6C\u8BD1 126 \u4E2A\u5B57\u7B26"
-  - "\u8BF4\u660E-\u66F4\u65B0\u65F6\u95F4: 2026-10-26 17:32 (CST)"
+  - "\u8BF4\u660E-\u66F4\u65B0\u65F6\u95F4: 2026-10-27 02:00 (CST)"
   - "\u8BF4\u660E-\u4F5C\u8005: wzmwayne"
   - "\u8BF4\u660E-\u4ED3\u5E93: https://github.com/wzmwayne/proxy-node"
